@@ -383,17 +383,13 @@
         "reveal": "La caja quedó certificada: limpia, segura y con +100,000 de Aura."
       },
       {
-        "type": "choice",
-        "question": "¿Quién devoró las croquetas y no dejó ni las migajas?",
-        "clue": "Analiza el nivel de aura: solo un perrito resolutivo con habilidades ninja pudo comerse todo en silencio.",
-        "hint": "Tiene cuatro patas, cola y dice que todo está limpio y seguro.",
-        "options": [
-          {"value": "chiwis", "label": "Chiwis con +500,000 de Aura resolutiva"},
-          {"value": "vecino", "label": "El vecino del lavadero"},
-          {"value": "fantasma", "label": "El fantasma del archivo"}
-        ],
-        "answers": ["chiwis"],
-        "reveal": "¡Chiwis devoró y no dejó ni las migajas! Y la que soporte."
+        "type": "lock",
+        "question": "Abre la alacena secreta de croquetas de Chiwis",
+        "clue": "Chiwis dejó anotada la clave del candado de la alacena: el nivel del aura absoluta repetido tres veces (999).",
+        "hint": "Alinea las tres ruedas en 999 con los botones.",
+        "solution": "999",
+        "dials": 3,
+        "reveal": "¡CLIC! La alacena se abrió: ¡Chiwis devoró todas las croquetas y no dejó ni las migajas!"
       }
     ]
   }

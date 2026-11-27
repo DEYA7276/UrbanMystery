@@ -80,7 +80,7 @@ function home(){
   view.innerHTML=`<section class="hero">
     <p class="eyebrow">ACCESO AUTORIZADO · PROTOCOLO RESOLUTIVO 2026</p>
     <h1>La verdad está<br>entre las <span class="gold">migajas y el aura.</span></h1>
-    <p>${cases.length} expedientes legendarios. ${total()} enigmas interactivos. Laberintos, misterios ocultos y el lore más puro de Neza y el cerro.</p>
+    <p>${cases.length} expedientes interactivos. ${total()} minijuegos y enigmas visuales. Cero preguntas de texto: laberintos, objetos ocultos en la página, radio de Las Pérdidas y el lore más puro de Neza.</p>
     <a class="btn" href="#caso/${(cases.find(c=>count(c)<c.puzzles.length)||cases[0]).id}">Continuar investigación →</a>
   </section>
   ${stats()}
@@ -95,7 +95,7 @@ function home(){
           <h3>${c.title}</h3>
           <p>${c.story}</p>
           <progress max="${c.puzzles.length}" value="${count(c)}"></progress>
-          <p>${count(c)} de ${c.puzzles.length} pistas completadas</p>
+          <p>${count(c)} de ${c.puzzles.length} pruebas completadas</p>
           <a class="btn secondary" href="#caso/${c.id}">${count(c)===c.puzzles.length?'Revisar expediente':'Abrir expediente'} →</a>
         </div>
       </article>`).join('')}
@@ -141,7 +141,7 @@ function puzzleInteraction(p){
       <div class="hidden-scene-grid">
         ${p.spots.map(s=>`<button type="button" class="hidden-card" data-spot="${esc(s.id)}"><span class="hidden-card-title">${esc(s.label)} <span>🔍</span></span><span class="hidden-card-desc">Toca para inspeccionar</span></button>`).join('')}
       </div>
-      <p id="hiddenStatus" class="feedback" role="status">Haz clic en los rincones sospechosos.</p>
+      <p id="hiddenStatus" class="feedback" role="status">Haz clic en los rincones sospechosos de la página.</p>
     </div>`;
   }
   if(p.type==='radar'){
@@ -169,16 +169,16 @@ function puzzleInteraction(p){
           <button type="button" class="radio-btn" id="freqUpFast">+ 1.0</button>
         </div>
       </div>
-      <p id="radarStatus" class="interaction-prompt">Ajusta la frecuencia para sintonizar el grito en el cerro.</p>
+      <p id="radarStatus" class="interaction-prompt">Mueve la barra o pulsa los botones hasta captar los ${p.targetFreq} MHz.</p>
     </div>`;
   }
   if(p.type==='lock'){
-    const count = p.dials || 4;
+    const count = p.dials || 3;
     return `<div class="lock-container">
       <div class="aura-header">
-        <span class="aura-badge">✨ Candado de Alta Seguridad: +15,000 Aura</span>
+        <span class="aura-badge">✨ Candado de Seguridad: +15,000 Aura</span>
       </div>
-      <p class="interaction-prompt">Usa las flechas para girar cada rueda y alinear la combinación correcta.</p>
+      <p class="interaction-prompt">Toca las flechas ▲ y ▼ para girar cada rueda y alinear la clave secreta.</p>
       <div class="lock-dial-box">
         ${Array.from({length:count},(_,i)=>`
           <div class="dial-column">
@@ -189,11 +189,11 @@ function puzzleInteraction(p){
         `).join('')}
       </div>
       <div class="lock-status-indicator" id="lockIndicator">🔒 Candado cerrado</div>
-      <p id="lockStatus" class="feedback" role="status">Ingresa la clave correcta para abrir.</p>
+      <p id="lockStatus" class="feedback" role="status">Alinea la combinación correcta con los botones.</p>
     </div>`;
   }
   if(p.type==='sequence'){
-    return `<p class="interaction-prompt">Toca los acontecimientos en el orden cronológico exacto:</p>
+    return `<p class="interaction-prompt">Toca las tarjetas en el orden en que ocurrieron los hechos:</p>
       <div class="puzzle-options">${p.items.map(x=>`<button type="button" class="puzzle-option" data-sequence="${esc(x.id)}" aria-pressed="false">${esc(x.label)}</button>`).join('')}</div>
       <ol id="sequencePreview" class="sequence-preview" aria-live="polite"></ol>
       <div class="actions">
@@ -202,17 +202,13 @@ function puzzleInteraction(p){
       </div>`;
   }
   if(p.type==='inspect'){
-    return `<p class="interaction-prompt">Abre cada evidencia para examinarla. Luego elige tu conclusión resolutiva.</p>
+    return `<p class="interaction-prompt">Abre cada evidencia para examinarla. Luego toca la conclusión que encaje.</p>
       <div class="evidence-board">${p.evidence.map(x=>`<article class="evidence-item"><button type="button" class="puzzle-option" data-inspect="${esc(x.id)}" aria-expanded="false">${esc(x.title)} <span aria-hidden="true">＋</span></button><p data-observation="${esc(x.id)}" hidden>${esc(x.detail)}</p></article>`).join('')}</div>
       <p id="inspectionStatus" class="interaction-prompt" aria-live="polite">Evidencias examinadas: 0 de ${p.evidence.length}</p>
       <div class="puzzle-options">${p.options.map(x=>`<button type="button" class="puzzle-option answer-option" data-option="${esc(x.value)}" disabled aria-pressed="false">${esc(x.label)}</button>`).join('')}</div>`;
   }
-  if(p.type==='choice'){
-    return `<p class="interaction-prompt">Elige la opción que demuestre tu nivel máximo de aura:</p>
-      <div class="puzzle-options">${p.options.map(x=>`<button type="button" class="puzzle-option answer-option" data-option="${esc(x.value)}" aria-pressed="false">${esc(x.label)}</button>`).join('')}</div>`;
-  }
   if(p.type==='match'){
-    return `<p class="interaction-prompt">Selecciona un elemento de la izquierda y luego su correspondencia a la derecha.</p>
+    return `<p class="interaction-prompt">Toca un rastro de la izquierda y luego toca su correspondencia de la derecha.</p>
       <div class="match-board">
         <section><h3>Rastros</h3><div class="match-column">${p.leftItems.map(x=>`<button type="button" class="puzzle-option" data-match-left="${esc(x.id)}" aria-pressed="false">${esc(x.label)}</button>`).join('')}</div></section>
         <section><h3>Correspondencias</h3><div class="match-column">${p.rightItems.map(x=>`<button type="button" class="puzzle-option" data-match-right="${esc(x.id)}" aria-pressed="false">${esc(x.label)}</button>`).join('')}</div></section>
@@ -220,16 +216,26 @@ function puzzleInteraction(p){
       <p id="matchStatus" class="interaction-prompt" aria-live="polite">Conexiones correctas: 0 de ${Object.keys(p.matches).length}</p>`;
   }
   if(p.type==='scene'){
-    return `<p class="interaction-prompt">Explora los rincones del lugar. Algunos objetos esconden llaves o herramientas para abrir otros.</p>
+    return `<p class="interaction-prompt">Toca los objetos del lugar para inspeccionarlos y desbloquear los que están cerrados.</p>
       <div class="scene-board">${p.objects.map(x=>`<article class="scene-object"><button type="button" class="puzzle-option" data-scene="${esc(x.id)}" aria-expanded="false">${esc(x.label)} <span aria-hidden="true">＋</span></button><p data-scene-detail="${esc(x.id)}" hidden>${esc(x.detail)}</p></article>`).join('')}</div>
       <div class="scene-inventory"><strong>${p.objects.some(x=>x.grants)?'Inventario de campo:':'Pruebas registradas:'}</strong><span id="sceneInventory">Nada todavía</span></div>`;
   }
-  return `<label for="answer">Introduce tu respuesta</label><input id="answer" required autocomplete="off" maxlength="100" placeholder="Escribe tu deducción...">`;
+  return `<p class="interaction-prompt">Toca para resolver este enigma interactivo.</p>`;
 }
 
 function caseView(c){
   cleanupKeyHandler();
   const n=count(c), p=c.puzzles[n];
+  const buttonLabel = !p ? 'Volver a la central' :
+    p.type==='match'?'Confirmar conexiones':
+    p.type==='scene'?'Cerrar investigación':
+    p.type==='maze'?'Comprobar llegada 🏁':
+    p.type==='hidden'?'Validar hallazgos 🔍':
+    p.type==='radar'?'Confirmar sintonía 📻':
+    p.type==='lock'?'Abrir cerradura 🔓':
+    p.type==='sequence'?'Validar orden 📋':
+    'Comprobar resolución';
+
   view.innerHTML=`<section class="section puzzle">
     <a href="#inicio">← Todos los casos</a>
     <p class="eyebrow">EXPEDIENTE ${c.number} / ${c.level.toUpperCase()} · PROTOCOLO 2026</p>
@@ -239,13 +245,13 @@ function caseView(c){
     <p>${n} de ${c.puzzles.length} enigmas superados · Nivel de Aura: +${n*5000} ✨</p>
     ${p?`
       <div class="card">
-        <span class="tag">ENIGMA ${n+1} · MODO INTERACTIVO</span>
+        <span class="tag">ENIGMA ${n+1} · MINIJUEGO INTERACTIVO</span>
         <h2>${p.question}</h2>
         <div class="clue">${esc(p.clue)}</div>
         <form id="answerForm">
           ${puzzleInteraction(p)}
           <div class="actions">
-            <button type="submit" id="verify">${p.type==='match'?'Confirmar conexiones':p.type==='scene'?'Cerrar investigación':p.type==='maze'?'Comprobar llegada':p.type==='hidden'?'Validar hallazgos':'Comprobar deducción'}</button>
+            <button type="submit" id="verify">${buttonLabel}</button>
             <button type="button" class="secondary" id="hint">Pedir pista de Aura</button>
           </div>
         </form>
@@ -254,7 +260,7 @@ function caseView(c){
       <div class="card">
         <p class="eyebrow">✓ CASO RESUELTO CON ÉXITO</p>
         <h2>¡Devoraste y no dejaste ni las migajas!</h2>
-        <p>Has obtenido +${c.puzzles.length*5000} puntos de Aura resolutiva. El caso ${c.title} queda archivado en la historia.</p>
+        <p>Has obtenido +${c.puzzles.length*5000} puntos de Aura resolutiva. El expediente ${c.title} queda archivado en la historia.</p>
         <a class="btn" href="#inicio">Volver a la central</a>
       </div>`}
     <h2 class="section">Pistas recuperadas del expediente</h2>
@@ -271,9 +277,7 @@ function caseView(c){
   let selectedAnswer=null, selectedItems=[], inspected=new Set(), matchedLeft=new Set(), matchedRight=new Set(), selectedLeft=null, inventory=new Set(), sceneComplete=false;
   let mazeComplete=false, hiddenComplete=false, radarComplete=false, lockComplete=false;
 
-  if(['inspect','choice','match','scene','maze','hidden','radar','lock'].includes(p.type)){
-    verify.disabled=true;
-  }
+  verify.disabled=true;
 
   $('#hint').onclick=()=>{
     feedback.textContent='💡 Pista de Aura: ' + p.hint;
@@ -336,10 +340,10 @@ function caseView(c){
         if(crumbsCollected>=requiredCrumbs){
           mazeComplete=true;
           verify.disabled=false;
-          $('#mazeStatus').textContent='🏆 ¡Llegaste a la meta! Devoraste el laberinto. Pulsa "Comprobar llegada".';
+          $('#mazeStatus').textContent='🏆 ¡Llegaste a la meta! Devoraste el laberinto. Pulsa "' + buttonLabel + '".';
           feedback.textContent='¡Victoria épica! +10,000 Aura.';
         }else{
-          feedback.textContent=`⚠️ Te faltan migajas. Recoge ${requiredCrumbs-crumbsCollected} migaja(s) más para completar la misión.`;
+          feedback.textContent=`⚠️ Te faltan migajas. Recoge ${requiredCrumbs-crumbsCollected} migaja(s) más para poder cruzar.`;
         }
       }
       renderMaze();
@@ -397,7 +401,7 @@ function caseView(c){
             if(foundTargets.size===p.targets.length){
               hiddenComplete=true;
               verify.disabled=false;
-              feedback.textContent='🎉 ¡Encontraste todos los objetos ocultos en la página! No dejaste ni las migajas (+5,000 Aura).';
+              feedback.textContent='🎉 ¡Encontraste todas las evidencias ocultas en la página! No dejaste ni las migajas (+5,000 Aura).';
             }
           }
         }else if(spot.decoy){
@@ -428,7 +432,7 @@ function caseView(c){
         bars.forEach(b=>b.classList.add('active'));
         audioText.textContent=p.quotes.locked;
         audioText.style.borderColor='var(--neon-green)';
-        status.textContent='¡SEÑAL SINTONIZADA AL 100%! +50,000 Aura asegurada.';
+        status.textContent='¡SEÑAL SINTONIZADA AL 100%! +50,000 Aura asegurada. Pulsa "' + buttonLabel + '".';
         radarComplete=true;
         verify.disabled=false;
       }else if(diff<0.8){
@@ -442,7 +446,7 @@ function caseView(c){
         bars[0].classList.add('active');
         audioText.textContent=p.quotes.far;
         audioText.style.borderColor='var(--line)';
-        status.textContent='Demasiada estática. Sigue ajustando la perilla.';
+        status.textContent='Demasiada estática. Sigue ajustando la perilla o la barra.';
         radarComplete=false;
         verify.disabled=true;
       }
@@ -458,7 +462,7 @@ function caseView(c){
 
   /* 4. LOCK / SAFE COMBINATION */
   if(p.type==='lock'){
-    const dialsCount=p.dials||4;
+    const dialsCount=p.dials||3;
     const digits=new Array(dialsCount).fill(0);
     const indicator=$('#lockIndicator');
 
@@ -469,7 +473,7 @@ function caseView(c){
         verify.disabled=false;
         indicator.textContent='🔓 ¡CANDADO DESBLOQUEADO!';
         indicator.classList.add('unlocked');
-        feedback.textContent='¡CLIC! Combinación exacta. Abriste la caja con +15,000 de Aura.';
+        feedback.textContent='¡CLIC! Combinación exacta. Pulsa "' + buttonLabel + '" para continuar.';
       }else{
         lockComplete=false;
         verify.disabled=true;
@@ -502,11 +506,10 @@ function caseView(c){
     $('#inspectionStatus').textContent=`Evidencias examinadas: ${inspected.size} de ${p.evidence.length}`;
     if(inspected.size===p.evidence.length){
       view.querySelectorAll('[data-option]').forEach(opt=>opt.disabled=false);
-      feedback.textContent='Examinaste todas las pistas. Elige tu deducción resolutiva.';
+      feedback.textContent='Examinaste todas las pistas. Toca la deducción que encaje.';
     }
   });
 
-  /* 6. CHOICE */
   view.querySelectorAll('[data-option]').forEach(button=>button.onclick=()=>{
     selectedAnswer=button.dataset.option;
     verify.disabled=false;
@@ -516,7 +519,7 @@ function caseView(c){
     });
   });
 
-  /* 7. MATCH */
+  /* 6. MATCH */
   view.querySelectorAll('[data-match-left]').forEach(button=>button.onclick=()=>{
     if(matchedLeft.has(button.dataset.matchLeft)) return;
     selectedLeft=button.dataset.matchLeft;
@@ -531,7 +534,7 @@ function caseView(c){
     const rightId=button.dataset.matchRight;
     if(matchedRight.has(rightId)) return;
     if(p.matches[selectedLeft]!==rightId){
-      feedback.textContent='Esa correspondencia no encaja. Perdiste -100 de Aura. ¡Intenta de nuevo!';
+      feedback.textContent='Esa correspondencia no encaja. Perdiste -100 de Aura. ¡Prueba otra!';
       selectedLeft=null;
       view.querySelectorAll('[data-match-left]').forEach(option=>{
         option.classList.remove('selected');
@@ -554,7 +557,7 @@ function caseView(c){
     if(matchedLeft.size===Object.keys(p.matches).length) verify.disabled=false;
   });
 
-  /* 8. SCENE */
+  /* 7. SCENE */
   view.querySelectorAll('[data-scene]').forEach(button=>button.onclick=()=>{
     const object=p.objects.find(x=>x.id===button.dataset.scene);
     if(object.requiredItem&&!inventory.has(object.requiredItem)){
@@ -578,11 +581,11 @@ function caseView(c){
     if(object.goal){
       sceneComplete=true;
       verify.disabled=false;
-      feedback.textContent='¡Objetivo cumplido! Cierra la investigación para registrar tu triunfo.';
+      feedback.textContent='¡Objetivo cumplido! Pulsa "' + buttonLabel + '" para registrar tu triunfo.';
     }
   });
 
-  /* 9. SEQUENCE */
+  /* 8. SEQUENCE */
   view.querySelectorAll('[data-sequence]').forEach(button=>button.onclick=()=>{
     if(selectedItems.length>=p.items.length||selectedItems.includes(button.dataset.sequence)) return;
     selectedItems.push(button.dataset.sequence);
@@ -627,11 +630,10 @@ function caseView(c){
     else if(p.type==='sequence') valid=selectedItems.join('|')===p.solution.join('|');
     else if(p.type==='match') valid=matchedLeft.size===Object.keys(p.matches).length;
     else if(p.type==='scene') valid=sceneComplete;
-    else if(p.type==='inspect'||p.type==='choice') valid=selectedAnswer!==null&&p.answers.some(a=>normalize(a)===normalize(selectedAnswer));
-    else valid=p.answers.some(a=>normalize(a)===normalize($('#answer').value));
+    else if(p.type==='inspect') valid=selectedAnswer!==null&&p.answers.some(a=>normalize(a)===normalize(selectedAnswer));
 
     if(!valid){
-      feedback.textContent='⚠️ Deducción incorrecta (-10,000 de Aura). Revisa las evidencias y devora de nuevo.';
+      feedback.textContent='⚠️ Deducción incorrecta (-10,000 de Aura). Revisa las evidencias e interactúa de nuevo.';
       return;
     }
 
@@ -658,7 +660,7 @@ function progressView(){
     ${cases.map(c=>`<div class="card section">
       <h3>${c.title}</h3>
       <progress value="${count(c)}" max="${c.puzzles.length}"></progress>
-      <p>${count(c)===c.puzzles.length?'✨ Caso resuelto · Devoraste al 100%':`${count(c)} de ${c.puzzles.length} pistas recuperadas`}</p>
+      <p>${count(c)===c.puzzles.length?'✨ Caso resuelto · Devoraste al 100%':`${count(c)} de ${c.puzzles.length} pruebas completadas`}</p>
       <a href="#caso/${c.id}">Consultar expediente →</a>
     </div>`).join('')}
     <button class="secondary" id="reset">Reiniciar progreso</button>
@@ -793,7 +795,7 @@ function render(){
 async function init(){
   try{
     db=await openDB();
-    const r=await fetch('./data/cases.json');
+    const r=await fetch('./data/cases.json?t='+Date.now());
     if(!r.ok) throw Error('No se pudieron cargar los casos');
     cases=await r.json();
     state=Object.fromEntries((await all('progress')).map(x=>[x.id,x]));
@@ -805,5 +807,9 @@ async function init(){
   }
 }
 
-if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(e=>console.error('Service Worker:',e));
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('./sw.js').then(reg=>{
+    reg.update();
+  }).catch(e=>console.error('Service Worker:',e));
+}
 init();
