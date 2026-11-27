@@ -1,25 +1,28 @@
 # UrbanMystery
-PWA de acertijos e investigación ficticia. HTML, CSS y JavaScript sin dependencias externas.
+PWA interactiva de investigación, acertijos y minijuegos. HTML, CSS y JavaScript modernos sin dependencias externas.
 
-## Ejecutar en Windows
-1. Extraer ZIP, abrir la carpeta UrbanMystery en VS Code.
-2. En la terminal ejecutar `py -m http.server 8000` (o `python -m http.server 8000`).
-3. Abrir http://localhost:8000 en Chrome o Edge. No abrir index.html por doble clic.
-4. Visitar la app en línea y esperar a que el Service Worker esté activo antes de probar offline.
+## Novedades 2026: Jugabilidad y Cultura Pop
+- **Laberintos interactivos (`maze`)**: Guía a tu personaje con controles táctiles o teclado (flechas / WASD), esquivando obstáculos y recolectando migajas para llegar a la meta.
+- **Búsqueda de objetos ocultos en la página (`hidden`)**: Inspecciona escenas interactivas haciendo clic en rincones y objetos para encontrar las evidencias clave y evitar trampas de pérdida de aura.
+- **Sintonizador de frecuencias (`radar`)**: Ajusta la radio de emergencia para captar la transmisión legendaria de Las Pérdidas en el cerro.
+- **Candado y combinaciones de seguridad (`lock`)**: Gira las ruedas numéricas para abrir cajas fuertes con deducciones numéricas.
+- **Lore urbano y cultura pop 2026**: Casos temáticos con referencias a **Aimep3** (Caso 04: *Pozole*, lavadero de Neza, jabón Zote, trebejos), **Las Pérdidas** (Wendy Guevara, Paola Suárez, *¡Estamos perdidas!*), el caso del *Destornillador* (Caso 05), y la cultura del 2026: puntos de **Aura**, recolección de **migajas**, modo resolutivo y devorar misterios.
+
+## Casos disponibles
+1. **El misterio de las migajas**: Caso inicial con búsqueda oculta, secuencias y laberinto del archivo.
+2. **La señal de Las Pérdidas**: Sintoniza la radio en 96.5 MHz, cruza el laberinto de nopales y empareja frases icónicas.
+3. **La bóveda del Aura 2026**: Encuentra los rastros en la sala blindada, descifra el candado 2026 y conecta las coartadas.
+4. **Pozole**: El legendario caso del lavadero de Neza, jabón Zote, tostadas sin dejar migajas y laberinto de la olla.
+5. **Destornillador**: Encuentra la herramienta mística en el taller, supera el laberinto de trebejos y abre la caja 777.
+6. **Chiwis y el enigma limpio y seguro**: Encuentra las travesuras de Chiwis, guía su laberinto nocturno y certifica la escena.
+
+## Ejecutar en local
+1. En la carpeta del proyecto, ejecuta en la terminal:
+   ```powershell
+   python -m http.server 8000
+   ```
+2. Abre `http://localhost:8000` en Chrome o Edge.
+3. La aplicación cuenta con Service Worker (`urban-static-v5`), soporte offline, IndexedDB y PWA instalable.
 
 ## Publicación HTTPS
-Crear repositorio en GitHub, subir archivos y configurar Settings > Pages > Deploy from a branch > main / root. Abrir la URL publicada. También se puede importar el repositorio en Vercel como proyecto estático sin build. El historial de commits debe reflejar cambios reales del equipo; no se incluye historial artificial.
-
-## Requisitos y pruebas manuales
-- Manifest: DevTools > Application > Manifest, verificar iconos 192 y 512, tema, standalone. Instalar desde botón cuando Chromium lo ofrezca o menú del navegador. Splash depende del sistema operativo.
-- App Shell/CSR: navegar por las tres vistas; comprobar tamaños móvil y escritorio.
-- Enigmas: inspeccionar evidencias, emparejar rastros, explorar escenas, recoger y usar objetos, y reconstruir secuencias; comprobar también pistas y errores.
-- Service Worker: Application > Service Workers; verificar activated. Cache Storage debe mostrar urban-static-v4 y, tras solicitar casos con worker activo, urban-dynamic-v1. Recargar una vez con conexión para generar caché dinámica.
-- IndexedDB: resolver un acertijo, recargar y revisar UrbanMystery > progress. Guardar evidencia y verificar evidence.
-- Offline: marcar Offline en DevTools > Network, recargar; resolver un acertijo y comprobar persistencia.
-- Cámara: Evidencias > Abrir cámara > permitir > Capturar foto. Requiere cámara disponible y contexto seguro.
-- Geolocalización: Evidencias > Registrar ubicación > permitir. Puede fallar si no hay servicio de ubicación o permiso.
-- HTTPS: captura de la URL publicada y certificado. Git: captura de commits reales.
-
-## Alcance
-Seis casos con 21 retos, desde nivel inicial hasta experto. Hay deducción, emparejamiento de pistas, exploración de escenas, inventario y reconstrucción de secuencias. También hay puntos, pistas y evidencia fotográfica/geográfica local. No hay cuentas ni sincronización entre dispositivos. La ubicación es opcional y no bloquea el juego. Las respuestas están en JSON y no constituyen un mecanismo antitrampas. Borrar datos del sitio elimina el progreso. No se envían evidencias al servidor. Instalación y APIs dependen del navegador y permisos.
+Despliega en GitHub Pages (Settings > Pages > Branch: `main` / root) o Vercel.

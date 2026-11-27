@@ -1,383 +1,399 @@
 [
   {
     "id": "archivo-interactivo",
-    "title": "El expediente desaparecido",
+    "title": "El misterio de las migajas",
     "number": "01",
     "level": "Inicial",
     "symbol": "▤",
-    "story": "Un archivista desapareció y dejó una caja abierta, huellas de polvo y un libro fuera de lugar. Reconstruye sus últimos pasos.",
+    "story": "Un misterioso intruso entró a la división de archivos y se llevó un expediente clasificado, dejando solo un rastro de migajas de atención y polvo. Activa tu modo resolutivo para rastrearlo.",
     "puzzles": [
       {
-        "type": "inspect",
-        "question": "¿Qué cajón abrió el archivista antes de desaparecer?",
-        "clue": "Examina cada hallazgo del escritorio. Ninguna pista por sí sola cuenta toda la historia.",
-        "hint": "Busca un número que aparezca tanto en el rastro como en el inventario.",
-        "evidence": [
-          {"id": "dust", "title": "Polvo en el escritorio", "detail": "Una línea limpia atraviesa el polvo y termina justo frente a un cajón."},
-          {"id": "inventory", "title": "Inventario rasgado", "detail": "Solo se alcanza a leer: «cajón 32: abierto después del cierre»."},
-          {"id": "book", "title": "Libro en el suelo", "detail": "El libro está cerrado y no tiene polvo removido en el lomo."}
+        "type": "hidden",
+        "question": "Encuentra las 3 evidencias ocultas en la oficina del archivo",
+        "clue": "El sospechoso huyó con prisa dejando pistas camufladas en la página. Haz clic sobre los rincones para hallar las pruebas sin perder tu aura.",
+        "hint": "Revisa bajo la alfombra, detrás del cuadro y en el estante de libros.",
+        "targets": [
+          {"id": "lupa", "label": "🔍 Lupa dorada de +1000 Aura"},
+          {"id": "expediente", "label": "📁 Expediente secreto devorado"},
+          {"id": "frasco", "label": "✨ Frasco de Aura concentrada"}
         ],
-        "options": [
-          {"value": "12", "label": "El cajón 12"},
-          {"value": "32", "label": "El cajón 32"},
-          {"value": "book", "label": "El interior del libro"}
+        "spots": [
+          {"id": "alfombra", "label": "Bajo la alfombra", "finds": "lupa", "detail": "¡Encontraste la lupa dorada! (+1000 Aura)"},
+          {"id": "cuadro", "label": "Detrás del cuadro torcido", "finds": "expediente", "detail": "¡Aquí estaba el expediente! No dejaron ni las migajas."},
+          {"id": "estante", "label": "Estante polvoriento", "finds": "frasco", "detail": "¡Un frasco de aura pura resplandeciente!"},
+          {"id": "papelera", "label": "Papelera de reciclaje", "decoy": "Un recibo de tacos de 2026: -50 de Aura."},
+          {"id": "taza", "label": "Taza de café fría", "decoy": "Café de hace tres días... ¡qué turbio!"},
+          {"id": "cortina", "label": "Detrás de la cortina", "decoy": "Solo una pelusa solitaria pidiendo atención."}
         ],
-        "answers": ["32"],
-        "reveal": "El cajón 32 fue abierto después del cierre."
+        "reveal": "Encontraste todas las evidencias ocultas en la página sin perder tu aura."
       },
       {
         "type": "sequence",
-        "question": "Reconstruye el último recorrido",
-        "clue": "La cámara captó huellas que entraban por la puerta trasera. Cerca del calefactor se secaron; luego dejaron polvo sobre el libro y, al final, la puerta del archivo quedó entornada.",
-        "hint": "Empieza donde aparecen las huellas y termina en el último lugar que quedó alterado.",
+        "question": "Reconstruye la ruta de escape del sospechoso",
+        "clue": "El sospechoso salió de la oficina, pisó las migajas cerca del pasillo, tiró una maceta y escapó por el conducto de ventilación.",
+        "hint": "Empieza en la oficina y termina en la ventilación.",
         "items": [
-          {"id": "door", "label": "Puerta trasera"},
-          {"id": "heater", "label": "Calefactor"},
-          {"id": "book", "label": "Libro polvoriento"},
-          {"id": "archive", "label": "Puerta del archivo"}
+          {"id": "oficina", "label": "Puerta de la oficina"},
+          {"id": "pasillo", "label": "Rastro de migajas en el pasillo"},
+          {"id": "maceta", "label": "Maceta derribada"},
+          {"id": "ducto", "label": "Conducto de ventilación"}
         ],
-        "solution": ["door", "heater", "book", "archive"],
-        "reveal": "El recorrido termina en la puerta del archivo, no en la salida."
+        "solution": ["oficina", "pasillo", "maceta", "ducto"],
+        "reveal": "El sospechoso usó el conducto de ventilación para huir con las migajas."
       },
       {
-        "type": "choice",
-        "question": "El guardián del archivo",
-        "clue": "Tengo hojas pero no soy árbol. Tengo lomo pero no soy animal. Elige el objeto que encaja con ambas pistas.",
-        "hint": "Lo encuentras en una biblioteca.",
-        "options": [
-          {"value": "book", "label": "Un libro"},
-          {"value": "map", "label": "Un mapa"},
-          {"value": "coat", "label": "Un abrigo"}
+        "type": "maze",
+        "question": "Escapa del laberinto del archivo central",
+        "clue": "Guía a tu agente 🕵️ por los pasillos de estanterías, recoge las migajas de evidencia 🍞 y llega a la salida 🚪 sin perder tu aura.",
+        "hint": "Usa las flechas o el teclado para esquivar los muros y recoge las 2 migajas.",
+        "playerIcon": "🕵️",
+        "goalIcon": "🚪",
+        "requiredCrumbs": 2,
+        "grid": [
+          "S . . # . . .",
+          "# # . # . # .",
+          ". . M . . # .",
+          ". # # # . # .",
+          ". . M . . . G"
         ],
-        "answers": ["book"],
-        "reveal": "El expediente se escondía dentro de un libro falso."
+        "reveal": "Superaste el laberinto del archivo con +10,000 de Aura intacta."
       }
     ]
   },
   {
     "id": "senal-interactiva",
-    "title": "La señal de medianoche",
+    "title": "La señal de Las Pérdidas",
     "number": "02",
     "level": "Intermedio",
     "symbol": "⌁",
-    "story": "Una radio abandonada transmite fragmentos de una conversación. Ordena los mensajes y averigua desde dónde salen.",
+    "story": "Paola Suárez y Wendy Guevara estaban transmitiendo en vivo cuando se perdieron en un cerro misterioso: «¡Estamos perdidas, perdidas, perdidas!». Con la batería al 1% y tacones en mano, piden auxilio por radio. ¡Sintoniza la señal, guíalas por el laberinto del cerro y devora el caso!",
     "puzzles": [
       {
-        "type": "inspect",
-        "question": "¿De dónde viene la voz?",
-        "clue": "Escucha las transcripciones recuperadas. Usa los detalles del ambiente para distinguir el lugar.",
-        "hint": "Un sonido se repite con claridad; otro aparece solo una vez.",
-        "evidence": [
-          {"id": "voice", "title": "Fragmento de voz", "detail": "La voz anuncia una salida y se corta antes de decir el destino."},
-          {"id": "sound", "title": "Ruido de fondo", "detail": "Se oyen ruedas sobre rieles y una campana de salida."},
-          {"id": "echo", "title": "Prueba de eco", "detail": "Al final del mensaje, la última sílaba rebota varias veces en un espacio cerrado."}
-        ],
-        "options": [
-          {"value": "tunnel", "label": "Un túnel ferroviario"},
-          {"value": "garden", "label": "Un jardín abierto"},
-          {"value": "kitchen", "label": "Una cocina"}
-        ],
-        "answers": ["tunnel"],
-        "reveal": "La transmisión se refleja dentro de un túnel ferroviario."
+        "type": "radar",
+        "question": "Sintoniza la radio de emergencia de Las Pérdidas",
+        "clue": "Mueve la barra o pulsa los botones hasta captar los 96.5 MHz, donde la señal rompe la estática y se escucha el grito legendario.",
+        "hint": "Ajusta la perilla entre 96.0 y 97.0 MHz.",
+        "targetFreq": 96.5,
+        "quotes": {
+          "locked": "📢 «¡ESTAMOS PERDIDAS, PERDIDAS, PERDIDAS! ¡VIEEEJO! ¡AQUÍ EN EL CERRO ENTRE LOS NOPALES!»",
+          "close": "📻 Se escucha entrecortado: '...ay comadre... perdidasss... vieeejo...'",
+          "far": "📻 Ssssshhhhh... Pura estática del cerro. (-100 Aura)"
+        },
+        "reveal": "La señal fue sintonizada con éxito: Wendy y Paola transmiten desde el cerro de los nopales."
       },
       {
-        "type": "sequence",
-        "question": "Ordena los fragmentos de la transmisión",
-        "clue": "El registro indica que primero se encendió la antena. Después apareció la voz; el eco devolvió sus últimas palabras y, cuando cesó, se apagó el grabador.",
-        "hint": "El eco no puede aparecer antes de la voz que lo provoca.",
-        "items": [
-          {"id": "antenna", "label": "Antena encendida"},
-          {"id": "voice", "label": "Se oye la voz"},
-          {"id": "echo", "label": "Regresa el eco"},
-          {"id": "recorder", "label": "Grabador apagado"}
+        "type": "maze",
+        "question": "El laberinto del cerro de Las Pérdidas",
+        "clue": "Guía a Las Pérdidas 💅 a través de los matorrales y nopales 🌵, recoge las migajas de batería 🔋 y llega a la patrulla de rescate 🚓.",
+        "hint": "No toques los cactus y recoge las 2 baterías para que no se apague el celular.",
+        "playerIcon": "💅",
+        "goalIcon": "🚓",
+        "requiredCrumbs": 2,
+        "grid": [
+          "S . # . . . .",
+          ". . # . # # .",
+          ". M . . . # .",
+          "# # # . # # .",
+          ". . M . . . G"
         ],
-        "solution": ["antenna", "voice", "echo", "recorder"],
-        "reveal": "La antena seguía activa durante toda la transmisión."
+        "reveal": "¡Las Pérdidas llegaron a la patrulla sanas y salvas! Y la queso."
       },
       {
-        "type": "choice",
-        "question": "La voz invisible",
-        "clue": "La grabación repite la última palabra sin que nadie vuelva a hablar. ¿Qué fenómeno debes seguir para encontrar la fuente?",
-        "hint": "Se escucha en montañas, túneles y habitaciones vacías.",
-        "options": [
-          {"value": "echo", "label": "El eco"},
-          {"value": "static", "label": "La estática"},
-          {"value": "silence", "label": "El silencio"}
+        "type": "match",
+        "question": "Conecta las frases legendarias con su nivel de Aura 2026",
+        "clue": "Empareja cada momento icónico con la energía resolutiva que desata.",
+        "hint": "El grito en el cerro es historia pura; 'la que soporte' es aura de devoradora.",
+        "leftItems": [
+          {"id": "perdidas", "label": "«¡Estamos perdidas, perdidas, perdidas!»"},
+          {"id": "queso", "label": "«¡Y la queso... la que soporte!»"},
+          {"id": "viejo", "label": "«¡Vieeejo... qué turbio!»"}
         ],
-        "answers": ["echo"],
-        "reveal": "El eco señaló la estación de pruebas acústicas."
+        "rightItems": [
+          {"id": "origen", "label": "+100,000 Aura histórica del cerro"},
+          {"id": "devoro", "label": "Modo devoradora activado al 100%"},
+          {"id": "alerta", "label": "Detector de misterios turbios"}
+        ],
+        "matches": {"perdidas": "origen", "queso": "devoro", "viejo": "alerta"},
+        "reveal": "Resolviste el enigma con aura infinita. Las comadres soportaron."
       }
     ]
   },
   {
     "id": "boveda-interactiva-v2",
-    "title": "La bóveda de cristal",
+    "title": "La bóveda del Aura 2026",
     "number": "03",
     "level": "Avanzado",
     "symbol": "◇",
-    "story": "Una pieza desapareció de un museo cerrado. Las vitrinas siguen intactas, pero alguien alteró el recorrido de seguridad.",
+    "story": "En la gran gala de creadores de contenido, la corona de +1,000,000 de Aura desapareció de la bóveda de cristal blindado sin activar la alarma. Solo un agente resolutivo puede descifrar la bóveda.",
     "puzzles": [
       {
-        "type": "inspect",
-        "question": "¿Qué vitrina fue abierta?",
-        "clue": "La alarma no se activó. Revisa las señales pequeñas que dejó quien movió la pieza.",
-        "hint": "Busca una marca que no podría aparecer si el vidrio siguiera cerrado.",
-        "evidence": [
-          {"id": "glass", "title": "Vitrina norte", "detail": "No tiene huellas en el vidrio; el sello de cierre sigue intacto."},
-          {"id": "pedestal", "title": "Vitrina central", "detail": "Hay un rectángulo limpio en el polvo del pedestal y una fibra atrapada en el borde."},
-          {"id": "window", "title": "Ventana del museo", "detail": "Está cerrada por dentro y el polvo del marco no se ha movido."}
+        "type": "hidden",
+        "question": "Encuentra los 3 rastros invisibles en la bóveda",
+        "clue": "Haz clic en los rincones de la escena para descubrir lo que el intruso dejó caer al huir.",
+        "hint": "Busca cerca del pedestal, en la rejilla del aire y en el piso.",
+        "targets": [
+          {"id": "fibra", "label": "🧵 Fibra de lentejuelas doradas"},
+          {"id": "tarjeta", "label": "💳 Tarjeta magnética clonada"},
+          {"id": "huella", "label": "👣 Huella de tacón con purpurina"}
         ],
-        "options": [
-          {"value": "north", "label": "La vitrina norte"},
-          {"value": "center", "label": "La vitrina central"},
-          {"value": "window", "label": "La ventana"}
+        "spots": [
+          {"id": "pedestal", "label": "Pedestal de cristal", "finds": "fibra", "detail": "¡Una fibra dorada enganchada al borde!"},
+          {"id": "rejilla", "label": "Rejilla del aire", "finds": "tarjeta", "detail": "¡Una tarjeta magnética con 2026 grabado!"},
+          {"id": "suelo", "label": "Piso pulido", "finds": "huella", "detail": "¡Una huella de tacón brillante en el polvo!"},
+          {"id": "camara", "label": "Cámara de seguridad", "decoy": "La lente fue tapada con chicle sabor fresa."},
+          {"id": "alarma", "label": "Caja de alarma", "decoy": "Los cables están intactos pero silenciados."},
+          {"id": "espejo", "label": "Espejo de vigilancia", "decoy": "Solo ves tu propio reflejo con +500 de Aura."}
         ],
-        "answers": ["center"],
-        "reveal": "La vitrina central fue abierta sin romper el cristal."
+        "reveal": "Los rastros indican que el sospechoso usó tarjeta de recepción y llevaba lentejuelas."
       },
       {
-        "type": "sequence",
-        "question": "Restaura la secuencia de la alarma",
-        "clue": "La guardia anotó que vio una sombra antes de oír el clic. El sensor registró movimiento después del clic y la alarma se silenció cuando llegó la supervisora.",
-        "hint": "La sombra precede al clic; la supervisora llega al final.",
-        "items": [
-          {"id": "shadow", "label": "Sombra en la sala"},
-          {"id": "click", "label": "Clic de la vitrina"},
-          {"id": "sensor", "label": "Sensor de movimiento"},
-          {"id": "guard", "label": "Llega la supervisora"}
-        ],
-        "solution": ["shadow", "click", "sensor", "guard"],
-        "reveal": "La alarma se silenció desde dentro, después de abrir la vitrina."
+        "type": "lock",
+        "question": "Descifra la combinación digital de la bóveda",
+        "clue": "La clave es el año actual de la cultura del aura y los memes resolutivos: cuatro dígitos en orden.",
+        "hint": "Es el año en curso: 2026.",
+        "solution": "2026",
+        "dials": 4,
+        "reveal": "¡CLIC! La combinación 2026 abrió el cerrojo digital de la bóveda."
       },
       {
         "type": "match",
-        "question": "Conecta cada rastro con lo que demuestra",
-        "clue": "Une las pruebas con su origen o significado. Cada rastro tiene una correspondencia distinta.",
-        "hint": "La fibra habla de ropa; el rectángulo limpio marca algo que ya no está.",
+        "question": "Conecta las coartadas con la evidencia física",
+        "clue": "Relaciona cada prueba encontrada con la deducción final del caso.",
+        "hint": "La fibra conecta con el vestuario; la tarjeta, con el acceso por la puerta.",
         "leftItems": [
-          {"id": "fiber", "label": "Fibra azul"},
-          {"id": "dust", "label": "Rectángulo limpio en el pedestal"},
-          {"id": "window", "label": "Ventana cerrada por dentro"}
+          {"id": "fibra", "label": "Fibra de lentejuelas"},
+          {"id": "tarjeta", "label": "Tarjeta clonada"},
+          {"id": "huella", "label": "Huella de tacón"}
         ],
         "rightItems": [
-          {"id": "escape", "label": "Descarta una salida por la ventana"},
-          {"id": "coat", "label": "Abrigo de Mara"},
-          {"id": "artifact", "label": "Pieza retirada de la vitrina"}
+          {"id": "vestido", "label": "Pertenecía al traje de Mara Gala"},
+          {"id": "puerta", "label": "Acceso autorizado desde recepción"},
+          {"id": "escape", "label": "Ruta de huida hacia la pasarela"}
         ],
-        "matches": {"fiber": "coat", "dust": "artifact", "window": "escape"},
-        "reveal": "La fibra identifica el abrigo; el pedestal confirma la pieza retirada y la ventana descarta una salida."
+        "matches": {"fibra": "vestido", "tarjeta": "puerta", "huella": "escape"},
+        "reveal": "Mara Gala usó la tarjeta clonada y huyó hacia la pasarela con la corona."
       }
     ]
   },
   {
     "id": "lavadero-interactivo-v2",
-    "title": "El pozole del lavadero",
+    "title": "Pozole",
     "number": "04",
     "level": "Avanzado",
     "symbol": "♨",
-    "story": "En una vieja lavandería aparece una receta escondida entre objetos fuera de lugar. Sigue el rastro sin tocar nada hasta saber quién dejó el mensaje.",
+    "story": "En el mítico lavadero de Neza se cocinó un pozole de leyenda. Entre burbujas de jabón Zote, migajas de tostadas y trebejos de doña Mary, se oculta la receta definitiva. Encuentra las pistas en la página y cruza el laberinto para salvar el pozole.",
     "puzzles": [
       {
-        "type": "sequence",
-        "question": "Reconstruye el recorrido de la receta",
-        "clue": "La huella entra desde el patio y llega al lavadero. Hay jabón junto a la llave; una toalla húmeda cuelga antes de la puerta de la cocina. La receta apareció al final, debajo de una olla limpia.",
-        "hint": "Sigue el camino desde la entrada hasta el último escondite.",
-        "items": [
-          {"id": "patio", "label": "Patio"},
-          {"id": "sink", "label": "Lavadero"},
-          {"id": "towel", "label": "Toalla húmeda"},
-          {"id": "pot", "label": "Olla limpia"}
+        "type": "hidden",
+        "question": "Encuentra en el lavadero los 4 elementos sagrados del pozole",
+        "clue": "Explora cada rincón del lavadero de Neza: busca el jabón Zote, la cuchara gigante, las tostadas con migajas y la receta secreta.",
+        "hint": "Revisa entre las tinas, bajo el lavadero, en el huacal y en la toalla.",
+        "targets": [
+          {"id": "zote", "label": "🧼 Jabón Zote rosa para tallar"},
+          {"id": "cucharilla", "label": "🥄 Cucharón pozolero de peltre"},
+          {"id": "tostadas", "label": "🍞 Bolsa de tostadas sin dejar migajas"},
+          {"id": "receta", "label": "📜 Receta original del pozole de lavadero"}
         ],
-        "solution": ["patio", "sink", "towel", "pot"],
-        "reveal": "La receta viajó desde el patio hasta la olla, pasando por el lavadero."
+        "spots": [
+          {"id": "tina", "label": "Tina de ropa remojada", "finds": "zote", "detail": "¡El legendario jabón Zote rosa! Aroma a Neza limpia y reluciente."},
+          {"id": "fogon", "label": "Junto al fogón", "finds": "cucharilla", "detail": "¡El cucharón pozolero de peltre con +2000 Aura!"},
+          {"id": "alacena", "label": "Huacal de trebejos", "finds": "tostadas", "detail": "¡Bolsa de tostadas lista para devorar sin dejar ni las migajas!"},
+          {"id": "toalla", "label": "Toalla colgada en el lazo", "finds": "receta", "detail": "¡La receta secreta estaba doblada entre los pliegues de la toalla!"},
+          {"id": "cubeta", "label": "Cubeta con agua espumosa", "decoy": "¡Cuidado con la espuma! Casi pierdes -100 de Aura."},
+          {"id": "pinzas", "label": "Bote de pinzas de ropa", "decoy": "Pinzas de plástico de todos colores pero nada de pozole."}
+        ],
+        "reveal": "Encontraste los 4 elementos sagrados del pozole de lavadero."
+      },
+      {
+        "type": "maze",
+        "question": "El laberinto del lavadero de Neza",
+        "clue": "Guía la olla de pozole 🍲 sorteando los montones de ropa sucia y cubetas de agua 🧼, recoge las migajas de tostada 🍞 y llega al fogón ♨️ sin regar ni una gota.",
+        "hint": "Recoge las 2 migajas de tostada para tener el sazón completo.",
+        "playerIcon": "🍲",
+        "goalIcon": "♨️",
+        "requiredCrumbs": 2,
+        "grid": [
+          "S . . # . . .",
+          "# . # # . # .",
+          ". . M . . # .",
+          ". # # # . . .",
+          ". . M # . . G"
+        ],
+        "reveal": "¡La olla llegó al fogón hirviendo con todo el sazón! Devoraste."
       },
       {
         "type": "scene",
-        "question": "Explora el lavadero y abre el armario",
-        "clue": "La receta está guardada en un armario cerrado. Revisa los objetos de la escena y usa lo que encuentres.",
-        "hint": "La llave está envuelta en algo que se usa para secar.",
+        "question": "Inspecciona el patio y abre el armario de las especias",
+        "clue": "El orégano y el chile guajillo están bajo llave. Busca la llave en la toalla y abre el armario.",
+        "hint": "La llave está en la toalla húmeda.",
         "objects": [
-          {"id": "towel", "label": "Toalla húmeda", "detail": "Entre los pliegues encuentras una llave pequeña.", "grants": {"id": "cabinet-key", "label": "Llave del armario"}},
-          {"id": "bucket", "label": "Cubeta azul", "detail": "La etiqueta dice «ropa», pero adentro hay una hoja seca con olor a maíz."},
-          {"id": "cabinet", "label": "Armario cerrado", "requiredItem": "cabinet-key", "lockedDetail": "El armario está cerrado. Busca una llave entre los objetos.", "detail": "La llave abre el armario. La receta está bajo una olla limpia.", "goal": true}
+          {"id": "toalla", "label": "Toalla húmeda colgada", "detail": "Entre los pliegues húmedos encuentras la llave de metal.", "grants": {"id": "llave-armario", "label": "Llave del armario"}},
+          {"id": "tambo", "label": "Tambo de agua", "detail": "Tiene agua clara para el caldo del pozole."},
+          {"id": "armario", "label": "Armario de especias", "requiredItem": "llave-armario", "lockedDetail": "Está cerrado con candado. Busca la llave en el lavadero.", "detail": "¡Se abrió! Adentro está el orégano fresco y el sazonador.", "goal": true}
         ],
-        "reveal": "La llave estaba en la toalla y la receta, en el armario."
-      },
-      {
-        "type": "choice",
-        "question": "La nota contradictoria",
-        "clue": "Tres personas declararon: «No entré al lavadero»; «La lluvia ya había empezado a las 20:40»; «La receta ya estaba bajo la olla cuando llegué». La cámara registra que empezó a llover a las 20:50 y muestra la toalla seca a las 20:45 y mojada a las 20:55. ¿Qué declaración contradice la evidencia?",
-        "hint": "Compara la hora que da la segunda persona con la marca de tiempo de la cámara.",
-        "options": [
-          {"value": "first", "label": "«No entré al lavadero»"},
-          {"value": "second", "label": "«La lluvia ya había empezado a las 20:40»"},
-          {"value": "third", "label": "«La receta ya estaba bajo la olla»"}
-        ],
-        "answers": ["second"],
-        "reveal": "La cámara fija el inicio de la lluvia a las 20:50; esa persona lo adelantó diez minutos."
+        "reveal": "El armario fue abierto y las especias le dieron el toque maestro al pozole."
       },
       {
         "type": "sequence",
-        "question": "Ordena los hallazgos de la escena",
-        "clue": "El reporte indica: primero se encontró la hoja seca en la cubeta; luego se descubrió la etiqueta cambiada; al final, la receta completa apareció debajo de la olla.",
-        "hint": "Separa la primera pista, la maniobra para ocultarla y el hallazgo final.",
+        "question": "El orden supremo del ritual del pozole de lavadero",
+        "clue": "Ordena los pasos auténticos de Neza: primero tallar el lavadero con jabón Zote, luego poner el maíz a hervir, dorar las tostadas y al final servir con harto orégano.",
+        "hint": "El Zote va primero para que todo esté limpio y seguro; las tostadas van antes de servir.",
         "items": [
-          {"id": "leaf", "label": "Hoja en la cubeta"},
-          {"id": "label", "label": "Etiqueta cambiada"},
-          {"id": "recipe", "label": "Receta bajo la olla"}
+          {"id": "zote", "label": "Tallar el lavadero con jabón Zote"},
+          {"id": "maiz", "label": "Poner a hervir el maíz cacahuazintle"},
+          {"id": "tostadas", "label": "Dorar las tostadas sin tirar migajas"},
+          {"id": "servir", "label": "Servir el pozole con orégano y devorar"}
         ],
-        "solution": ["leaf", "label", "recipe"],
-        "reveal": "La etiqueta falsa era una distracción; la receta completa estaba en la cocina."
+        "solution": ["zote", "maiz", "tostadas", "servir"],
+        "reveal": "Completaste el ritual del pozole de lavadero con +50,000 de Aura gastronómica."
       }
     ]
   },
   {
     "id": "herramientas-interactivo-v2",
-    "title": "El dado y el destornillador",
+    "title": "Destornillador",
     "number": "05",
     "level": "Experto",
     "symbol": "⚙",
-    "story": "Alguien cambió una pieza del dado de colección y dejó el destornillador en el taller. Interroga las pruebas para descubrir quién entró y qué hizo.",
+    "story": "«¡¿Dónde quedó mi destornillador de cruz?!». Una herramienta mística desapareció del taller clandestino. Quien lo tenga podrá ensamblar el dado supremo y desbloquear +100,000 de Aura. Inspecciona el taller en la página y supera el laberinto.",
     "puzzles": [
       {
-        "type": "inspect",
-        "question": "¿Quién dejó la marca en el destornillador?",
-        "clue": "No acuses a quien estuvo cerca: busca la coincidencia entre las marcas y los objetos personales.",
-        "hint": "Una de las pruebas conecta una fibra con una prenda; otra confirma quién tuvo acceso.",
-        "evidence": [
-          {"id": "handle", "title": "Mango del destornillador", "detail": "Tiene una fibra violeta atrapada bajo el borde de goma."},
-          {"id": "coat", "title": "Abrigos del personal", "detail": "Solo Inés llevaba una chamarra violeta durante el turno."},
-          {"id": "log", "title": "Bitácora del taller", "detail": "Inés pidió la llave del taller y la devolvió después del cierre."}
+        "type": "hidden",
+        "question": "Encuentra en la página del taller el destornillador y las piezas clave",
+        "clue": "Revisa la mesa de trabajo, la caja de herramientas, el tornillo de banco y los estantes de trebejos.",
+        "hint": "Busca en la caja de fusibles, bajo la franela y en la gaveta metálica.",
+        "targets": [
+          {"id": "destornillador", "label": "🪛 El destornillador de cruz con mango violeta"},
+          {"id": "dado", "label": "🎲 El dado supremo de 20 caras"},
+          {"id": "cinta", "label": "⬛ Rollo de cinta de aislar negra"},
+          {"id": "migajas", "label": "🔩 Frasco de migajas y virutas de metal"}
         ],
-        "options": [
-          {"value": "ines", "label": "Inés"},
-          {"value": "ruben", "label": "Rubén"},
-          {"value": "lola", "label": "Lola"}
+        "spots": [
+          {"id": "franela", "label": "Debajo de la franela roja", "finds": "destornillador", "detail": "¡AQUÍ ESTÁ EL DESTORNILLADOR! Mango de goma intacto y +5000 Aura."},
+          {"id": "gaveta", "label": "Gaveta metálica", "finds": "dado", "detail": "¡El dado supremo reluciente!"},
+          {"id": "fusibles", "label": "Caja de fusibles", "finds": "cinta", "detail": "¡Cinta de aislar de alto voltaje recuperada!"},
+          {"id": "banco", "label": "Bajo el tornillo de banco", "finds": "migajas", "detail": "¡El frasco con virutas y migajas metálicas!"},
+          {"id": "lata", "label": "Lata de aceite vacía", "decoy": "Solo una gota de grasa seca: -50 Aura."},
+          {"id": "trapo", "label": "Trapo con solvente", "decoy": "Huele fuerte... mejor no tocar sin guantes."}
         ],
-        "answers": ["ines"],
-        "reveal": "La fibra, la chamarra y la bitácora sitúan a Inés en el taller."
+        "reveal": "¡Recuperaste el destornillador y las piezas legendarias del taller!"
       },
       {
-        "type": "sequence",
-        "question": "Ordena lo que pasó con el dado",
-        "clue": "Las marcas muestran que primero se retiró la tapa de la caja, después se ajustó el soporte; el dado fue colocado de nuevo y la caja se cerró al final.",
-        "hint": "No se puede ajustar el soporte antes de abrir la caja.",
-        "items": [
-          {"id": "open", "label": "Abrir la caja"},
-          {"id": "adjust", "label": "Ajustar el soporte"},
-          {"id": "die", "label": "Colocar el dado"},
-          {"id": "close", "label": "Cerrar la caja"}
+        "type": "maze",
+        "question": "El laberinto del taller de trebejos",
+        "clue": "Guía al destornillador 🪛 sorteando las estanterías caídas y montones de chatarra ⚙️, recoge las migajas de tuercas 🍞 y llega a la mesa central 🎯.",
+        "hint": "Recoge las 2 migajas de tuercas para apretar los tornillos.",
+        "playerIcon": "🪛",
+        "goalIcon": "🎯",
+        "requiredCrumbs": 2,
+        "grid": [
+          "S . # . . . .",
+          ". . # . # # .",
+          ". M . . . # .",
+          "# # . # . # .",
+          ". . M . . . G"
         ],
-        "solution": ["open", "adjust", "die", "close"],
-        "reveal": "El dado se movió durante una reparación, no durante una tirada."
+        "reveal": "El destornillador atravesó el laberinto y llegó a la mesa de operaciones."
       },
       {
-        "type": "inspect",
-        "question": "¿Qué testimonio no encaja?",
-        "clue": "Una persona dice que nunca se acercó a la mesa. Examina el registro y las pruebas de contacto.",
-        "hint": "Elige a quien dejó una señal física en el objeto que asegura no haber tocado.",
-        "evidence": [
-          {"id": "glove", "title": "Guante encontrado", "detail": "Tiene polvo metálico del soporte del dado y una I bordada en el puño."},
-          {"id": "note", "title": "Declaración de Inés", "detail": "«No toqué la mesa ni la caja»."},
-          {"id": "photo", "title": "Foto del turno", "detail": "En el reflejo del cristal se ve una mano con el mismo guante junto a la caja."}
-        ],
-        "options": [
-          {"value": "ines", "label": "La declaración de Inés"},
-          {"value": "ruben", "label": "La declaración de Rubén"},
-          {"value": "lola", "label": "La declaración de Lola"}
-        ],
-        "answers": ["ines"],
-        "reveal": "La foto y el guante contradicen la declaración de Inés."
+        "type": "lock",
+        "question": "Abre la caja fuerte de tuercas maestras",
+        "clue": "El maestro mecánico dejó anotado: «La clave del éxito y del aura triple es el número de la suerte repetido tres veces».",
+        "hint": "El número de la suerte por excelencia: 777.",
+        "solution": "777",
+        "dials": 3,
+        "reveal": "¡CLIC! La combinación 777 liberó el seguro de la caja de herramientas."
       },
       {
         "type": "match",
-        "question": "Arma el mapa de rastros del taller",
-        "clue": "Cada marca cuenta una parte distinta de la reparación. Empareja la evidencia con el objeto que la produjo.",
-        "hint": "El polvo metálico viene del soporte; la raya fina, de una punta; la fibra, de una prenda.",
+        "question": "Conecta las marcas del destornillador con los sospechosos",
+        "clue": "Cada huella cuenta quién manipuló la herramienta en el taller.",
+        "hint": "La fibra violeta conecta con la chamarra de Inés; la punta imantada, con el tornillo.",
         "leftItems": [
-          {"id": "fiber", "label": "Fibra violeta"},
-          {"id": "powder", "label": "Polvo metálico"},
-          {"id": "scratch", "label": "Raya fina"}
+          {"id": "fibra", "label": "Fibra violeta en el mango"},
+          {"id": "punta", "label": "Raya en la punta imantada"},
+          {"id": "grasa", "label": "Huella de grasa en el dado"}
         ],
         "rightItems": [
-          {"id": "tip", "label": "Punta del destornillador"},
-          {"id": "jacket", "label": "Chamarra de Inés"},
-          {"id": "support", "label": "Soporte del dado"}
+          {"id": "ines", "label": "Chamarra de Inés la mecánica"},
+          {"id": "tornillo", "label": "Tornillo de soporte ajustado"},
+          {"id": "guante", "label": "Guante de trabajo hallado en la mesa"}
         ],
-        "matches": {"fiber": "jacket", "powder": "support", "scratch": "tip"},
-        "reveal": "Los rastros conectan la chamarra de Inés, el soporte del dado y el destornillador."
+        "matches": {"fibra": "ines", "punta": "tornillo", "grasa": "guante"},
+        "reveal": "Las evidencias demuestran que Inés usó el destornillador para calibrar el dado."
       }
     ]
   },
   {
     "id": "chiwis-interactivo-v2",
-    "title": "Chiwis y la caja limpia y segura",
+    "title": "Chiwis y el enigma limpio y seguro",
     "number": "06",
     "level": "Especial",
     "symbol": "✦",
-    "story": "Chiwis dejó una serie de pistas entre una olla, un dado y una caja. Recorre el lugar, registra los detalles y descubre qué pasó antes de que amanezca.",
+    "story": "Chiwis juró que todo en la casa estaba «limpio y seguro». Pero las cámaras captaron un rastro sospechoso de croquetas y migajas. ¡Investiga la escena, cruza el laberinto y descubre qué hizo Chiwis antes del amanecer!",
     "puzzles": [
       {
-        "type": "inspect",
-        "question": "¿Cuál de las tres notas dejó Chiwis?",
-        "clue": "La portada del expediente de Chiwis lleva una chispa dibujada. Busca la nota con la misma marca y revisa dónde apareció.",
-        "hint": "La nota auténtica tiene una señal que coincide con el dibujo del margen.",
-        "evidence": [
-          {"id": "paper", "title": "Papel doblado", "detail": "Tiene una huella de harina y un dibujo pequeño de una chispa."},
-          {"id": "wall", "title": "Nota en la pared", "detail": "Está escrita con tinta fresca, pero no tiene el dibujo del margen."},
-          {"id": "drawer", "title": "Papel del cajón", "detail": "Es una lista de compras y tiene una mancha de café."}
+        "type": "hidden",
+        "question": "Encuentra las 4 travesuras de Chiwis ocultas en la página",
+        "clue": "Inspecciona la habitación para encontrar los objetos que Chiwis escondió para mantener todo «limpio y seguro».",
+        "hint": "Revisa bajo la cama, detrás del sillón, en la cocina y junto a su plato.",
+        "targets": [
+          {"id": "chispa", "label": "✨ Chispa dorada de +5000 Aura"},
+          {"id": "hueso", "label": "🦴 Huesito de hule mordisqueado"},
+          {"id": "nota", "label": "📝 Nota que dice «limpio y seguro»"},
+          {"id": "croquetas", "label": "🥣 Plato de croquetas sin dejar migajas"}
         ],
-        "options": [
-          {"value": "paper", "label": "El papel doblado"},
-          {"value": "wall", "label": "La nota de la pared"},
-          {"value": "drawer", "label": "La lista del cajón"}
+        "spots": [
+          {"id": "cama", "label": "Debajo de la cama", "finds": "chispa", "detail": "¡La chispa brillante de Chiwis resplandece con aura pura!"},
+          {"id": "sillon", "label": "Detrás del cojín del sillón", "finds": "hueso", "detail": "¡El huesito mordisqueado estaba camuflado aquí!"},
+          {"id": "mesa", "label": "Pegada bajo la mesita", "finds": "nota", "detail": "¡La famosa nota manuscrita: «limpio y seguro»!"},
+          {"id": "rincon", "label": "Rincón de la cocina", "finds": "croquetas", "detail": "¡El plato de croquetas devorado al 100%!"},
+          {"id": "zapato", "label": "Zapato mordido", "decoy": "Un tenis masticado... ¡Chiwis, qué turbio! (-50 Aura)"},
+          {"id": "caja", "label": "Caja de cartón vacía", "decoy": "Solo polvo y un pelo de gato intruso."}
         ],
-        "answers": ["paper"],
-        "reveal": "El papel con la chispa y la huella de harina era la pista de Chiwis."
+        "reveal": "Encontraste todas las evidencias de la travesura de Chiwis."
       },
       {
-        "type": "sequence",
-        "question": "Arma el recorrido del pozole",
-        "clue": "La olla salió de la cocina al patio; la dejaron junto al lavadero; después apareció la nota bajo la tapa y, por último, alguien regresó la olla a la mesa.",
-        "hint": "Sigue los lugares en el orden en que la olla los visitó.",
-        "items": [
-          {"id": "kitchen", "label": "Cocina"},
-          {"id": "patio", "label": "Patio"},
-          {"id": "sink", "label": "Lavadero"},
-          {"id": "table", "label": "Mesa"}
+        "type": "maze",
+        "question": "El laberinto nocturno de Chiwis",
+        "clue": "Guía a Chiwis 🐶 por el pasillo a oscuras, esquiva los zapatos tirados 👟, recoge las migajas de galleta 🍞 y llega a su camita limpia y segura 🛏️.",
+        "hint": "Recoge las 2 migajas antes de dormirte en la camita.",
+        "playerIcon": "🐶",
+        "goalIcon": "🛏️",
+        "requiredCrumbs": 2,
+        "grid": [
+          "S . . # . . .",
+          "# . # # . # .",
+          ". . M . . # .",
+          ". # # . # # .",
+          ". . M . . . G"
         ],
-        "solution": ["kitchen", "patio", "sink", "table"],
-        "reveal": "La nota viajó escondida bajo la tapa durante todo el recorrido."
+        "reveal": "Chiwis llegó a su cama limpia y segura sin despertar a doña Mary."
       },
       {
         "type": "scene",
-        "question": "Registra la escena «limpio y seguro»",
-        "clue": "No muevas la caja. Examina la etiqueta y el sello; después abre el registro de campo para dejar constancia.",
-        "hint": "El registro solo se habilita cuando inspeccionas tanto la etiqueta como el sello.",
+        "question": "Inspección de la caja «limpia y segura»",
+        "clue": "Verifica el sello y la etiqueta antes de cerrar el reporte de campo.",
+        "hint": "Examina ambos elementos antes de redactar el informe.",
         "objects": [
-          {"id": "label", "label": "Etiqueta de la caja", "detail": "Dice «limpio y seguro», pero no muestra quién la revisó ni cuándo."},
-          {"id": "seal", "label": "Sello de seguridad", "detail": "El sello está intacto. La caja no necesita abrirse para documentar la escena."},
-          {"id": "report", "label": "Registro de campo", "requiredInspections": ["label", "seal"], "lockedDetail": "Antes de registrar, revisa la etiqueta y el sello sin tocar la caja.", "detail": "Anotas el estado, mantienes la caja cerrada y avisas a la persona responsable.", "goal": true}
+          {"id": "etiqueta", "label": "Etiqueta «Limpio y Seguro»", "detail": "Firmada con una patita: certifica cero migajas en el perímetro."},
+          {"id": "sello", "label": "Sello de cinta dorada", "detail": "El sello de seguridad está intacto."},
+          {"id": "informe", "label": "Bitácora oficial de Chiwis", "requiredInspections": ["etiqueta", "sello"], "lockedDetail": "Revisa primero la etiqueta y el sello.", "detail": "¡Caso documentado con éxito! Chiwis mantiene su aura legendaria.", "goal": true}
         ],
-        "reveal": "La caja quedó cerrada, la escena documentada y el hallazgo reportado."
+        "reveal": "La caja quedó certificada: limpia, segura y con +100,000 de Aura."
       },
       {
-        "type": "match",
-        "question": "Conecta los rastros con la historia del dado",
-        "clue": "Relaciona cada señal con lo que revela sobre el cierre de la caja.",
-        "hint": "La raya apunta a una herramienta; la fibra, a una manga; la petición, a quién tuvo acceso.",
-        "leftItems": [
-          {"id": "scratch", "label": "Raya fina en el cierre"},
-          {"id": "fiber", "label": "Fibra amarilla"},
-          {"id": "request", "label": "Pidió revisar el dado"}
+        "type": "choice",
+        "question": "¿Quién devoró las croquetas y no dejó ni las migajas?",
+        "clue": "Analiza el nivel de aura: solo un perrito resolutivo con habilidades ninja pudo comerse todo en silencio.",
+        "hint": "Tiene cuatro patas, cola y dice que todo está limpio y seguro.",
+        "options": [
+          {"value": "chiwis", "label": "Chiwis con +500,000 de Aura resolutiva"},
+          {"value": "vecino", "label": "El vecino del lavadero"},
+          {"value": "fantasma", "label": "El fantasma del archivo"}
         ],
-        "rightItems": [
-          {"id": "access", "label": "Tuvo acceso a la sala"},
-          {"id": "sleeve", "label": "Manga de Chiwis"},
-          {"id": "tool", "label": "Punta del destornillador"}
-        ],
-        "matches": {"scratch": "tool", "fiber": "sleeve", "request": "access"},
-        "reveal": "La herramienta abrió la caja; la fibra y el testimonio identifican a Chiwis."
+        "answers": ["chiwis"],
+        "reveal": "¡Chiwis devoró y no dejó ni las migajas! Y la que soporte."
       }
     ]
   }
