@@ -21,4 +21,4 @@ Crear repositorio en GitHub, subir archivos y configurar Settings > Pages > Depl
 - HTTPS: captura de la URL publicada y certificado. Git: captura de commits reales.
 
 ## Alcance
-Tres casos ficticios con nueve acertijos; puntos, pistas y evidencia fotográfica/geográfica local. No hay cuentas ni sincronización entre dispositivos. La ubicación es opcional y no bloquea el juego. Las respuestas están en JSON y no constituyen un mecanismo antitrampas. Borrar datos del sitio elimina el progreso. No se envían evidencias al servidor. Instalación y APIs dependen del navegador y permisos.
+Seis casos con 21 acertijos, desde nivel inicial hasta experto; incluye un expediente fan-made y no oficial con referencias de AimeP3. Hay puntos, pistas y evidencia fotográfica/geográfica local. No hay cuentas ni sincronización entre dispositivos. La ubicación es opcional y no bloquea el juego. Las respuestas están en JSON y no constituyen un mecanismo antitrampas. Borrar datos del sitio elimina el progreso. No se envían evidencias al servidor. Instalación y APIs dependen del navegador y permisos.
