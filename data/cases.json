@@ -69,17 +69,17 @@
   },
   {
     "id": "senal-interactiva",
-    "title": "La señal de Las Pérdidas",
+    "title": "La estación fantasma",
     "number": "02",
     "level": "Intermedio",
     "symbol": "⌁",
-    "story": "Wendy Guevara y Paola Suárez quedaron atrapadas en un cerro escarpado: «¡Estamos perdidas, perdidas, perdidas!». La zona está repleta de nopales punzantes, barrancos y maleza densa. Guía el rescate sorteando el terreno hostil.",
+    "story": "Una estación subterránea clausurada hace décadas volvió a registrar pulsos anómalos en los sismógrafos urbanos. Los andenes están inundados, los cables de alta tensión cuelgan del techo y las esclusas neumáticas se han bloqueado.",
     "puzzles": [
       {
         "type": "maze",
-        "question": "Tramo 01: El cerro de los nopales",
-        "clue": "El sendero está flanqueado por nopales punzantes [T]. Encuentra el machete [K] para abrir la brecha en la cerca [D], recoge la batería de repuesto [C] y llega al punto de reunión [G].",
-        "hint": "Los nopales [T] cortan tu avance y drenan tu aura. Consigue el machete [K] en la esquina inferior.",
+        "question": "Sector 01: El andén clausurado",
+        "clue": "Las vías del tren están bloqueadas por cables con descarga [T]. Localiza la tarjeta de mantenimiento [K] para abrir la compuerta de acceso [D], recupera el registro de audio de la estación [C] y avanza hacia los túneles [G].",
+        "hint": "Los cables pelados [T] drenan tu aura. Consigue la tarjeta [K] en la esquina inferior.",
         "requiredItems": 1,
         "fog": false,
         "grid": [
@@ -91,13 +91,13 @@
           ". # . # # # # D # # .",
           "K # . . . . . . . . G"
         ],
-        "reveal": "Las comadres lograron superar el primer matorral de nopales sin rasgarse los vestidos."
+        "reveal": "Recuperaste la primera grabación de la estación clausurada y cruzaste el andén."
       },
       {
         "type": "maze",
-        "question": "Tramo 02: La quebrada de la noche",
-        "clue": "La noche cayó sobre el cerro. Entre la niebla hay barrancos peligrosos [T]. Encuentra la linterna táctica [K] para abrir el paso [D] y recoge las 2 pertenencias caídas [C] antes de llegar a la vereda [G].",
-        "hint": "En la oscuridad solo ves 2 casillas a tu alrededor. No camines a ciegas hacia los barrancos [T].",
+        "question": "Sector 02: El túnel de drenaje",
+        "clue": "El túnel de ventilación carece de luz. El agua acumulada oculta arcos eléctricos [T]. Encuentra la linterna de alta potencia [K] para habilitar la compuerta [D] y recoge las 2 cajas negras [C] antes de llegar a la galería de paso [G].",
+        "hint": "En la oscuridad solo ves 2 casillas a tu alrededor. Avanza despacio para no pisar las descargas de agua [T].",
         "requiredItems": 2,
         "fog": true,
         "grid": [
@@ -111,13 +111,13 @@
           "# # . . . # . T . . . # .",
           ". . . # . . . # # . . . G"
         ],
-        "reveal": "Recuperaste el tacón de Paola y el bolso de Wendy en plena penumbra sin caer en la quebrada."
+        "reveal": "Aseguraste las dos cajas negras entre la niebla del drenaje subterráneo."
       },
       {
         "type": "maze",
-        "question": "Tramo 03: La antena de transmisión",
-        "clue": "En la cima del cerro se encuentra la torre de radio. Los cables sueltos con corriente [T] bloquean el acceso. Consigue el fusible maestro [K], abre la compuerta [D], conecta los 2 relés [C] y sintoniza los 96.5 MHz en el punto de emisión [G].",
-        "hint": "Cuidado con los cables con descarga [T]. Activa ambos relés para que la señal retumbe en todo el valle.",
+        "question": "Sector 03: El centro de mando subterráneo",
+        "clue": "La sala de control principal está protegida por sensores de sobretensión [T]. Consigue la llave maestra del conmutador [K], abre la compuerta blindada [D], conecta los 2 terminales de energía [C] y apaga la señal fantasma en el panel central [G].",
+        "hint": "Cuidado con los sensores de sobretensión [T]. Conecta ambos terminales para estabilizar la energía.",
         "requiredItems": 2,
         "fog": true,
         "grid": [
@@ -131,7 +131,7 @@
           ". # # # # . # . # # # # .",
           "C . . . . . # . . . . . G"
         ],
-        "reveal": "«¡Estamos perdidas, perdidas, perdidas! ¡Vieeejo!» La señal salió al 100% y la patrulla llegó al rescate."
+        "reveal": "El centro de mando fue desconectado y el origen de la señal subterránea quedó al descubierto."
       }
     ]
   },

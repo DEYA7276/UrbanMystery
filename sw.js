@@ -1,4 +1,4 @@
-const STATIC = 'urban-static-v7', DYNAMIC = 'urban-dynamic-v3';
+const STATIC = 'urban-static-v8', DYNAMIC = 'urban-dynamic-v4';
 const SHELL = [
   './',
   './index.html',
