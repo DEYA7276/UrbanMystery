@@ -15,15 +15,17 @@ function puzzleInteraction(p){
  if(p.type==='sequence')return `<p class="interaction-prompt">Toca las evidencias en el orden correcto. Puedes deshacer y volver a empezar.</p><div class="puzzle-options">${p.items.map(x=>`<button type="button" class="puzzle-option" data-sequence="${esc(x.id)}" aria-pressed="false">${esc(x.label)}</button>`).join('')}</div><ol id="sequencePreview" class="sequence-preview" aria-live="polite"></ol><div class="actions"><button type="button" class="secondary" id="undoSequence" disabled>Deshacer último</button><button type="button" class="secondary" id="clearSequence" disabled>Reiniciar orden</button></div>`;
  if(p.type==='inspect')return `<p class="interaction-prompt">Abre cada evidencia para examinarla. Luego elige tu conclusión.</p><div class="evidence-board">${p.evidence.map(x=>`<article class="evidence-item"><button type="button" class="puzzle-option" data-inspect="${esc(x.id)}" aria-expanded="false">${esc(x.title)} <span aria-hidden="true">＋</span></button><p data-observation="${esc(x.id)}" hidden>${esc(x.detail)}</p></article>`).join('')}</div><p id="inspectionStatus" class="interaction-prompt" aria-live="polite">Evidencias examinadas: 0 de ${p.evidence.length}</p><div class="puzzle-options">${p.options.map(x=>`<button type="button" class="puzzle-option answer-option" data-option="${esc(x.value)}" disabled aria-pressed="false">${esc(x.label)}</button>`).join('')}</div>`;
  if(p.type==='choice')return `<p class="interaction-prompt">Elige la conclusión que mejor encaja con las pistas.</p><div class="puzzle-options">${p.options.map(x=>`<button type="button" class="puzzle-option answer-option" data-option="${esc(x.value)}" aria-pressed="false">${esc(x.label)}</button>`).join('')}</div>`;
+ if(p.type==='match')return `<p class="interaction-prompt">Selecciona un rastro y luego la prueba que corresponde. Completa todas las conexiones.</p><div class="match-board"><section><h3>Rastros</h3><div class="match-column">${p.leftItems.map(x=>`<button type="button" class="puzzle-option" data-match-left="${esc(x.id)}" aria-pressed="false">${esc(x.label)}</button>`).join('')}</div></section><section><h3>Correspondencias</h3><div class="match-column">${p.rightItems.map(x=>`<button type="button" class="puzzle-option" data-match-right="${esc(x.id)}" aria-pressed="false">${esc(x.label)}</button>`).join('')}</div></section></div><p id="matchStatus" class="interaction-prompt" aria-live="polite">Conexiones correctas: 0 de ${Object.keys(p.matches).length}</p>`;
+ if(p.type==='scene')return `<p class="interaction-prompt">Explora el lugar. Algunos objetos esconden otros; vuelve a los que estaban cerrados.</p><div class="scene-board">${p.objects.map(x=>`<article class="scene-object"><button type="button" class="puzzle-option" data-scene="${esc(x.id)}" aria-expanded="false">${esc(x.label)} <span aria-hidden="true">＋</span></button><p data-scene-detail="${esc(x.id)}" hidden>${esc(x.detail)}</p></article>`).join('')}</div><div class="scene-inventory"><strong>${p.objects.some(x=>x.grants)?'Lo que encontraste:':'Pruebas registradas:'}</strong><span id="sceneInventory">Nada todavía</span></div>`;
  return `<label for="answer">Introduce tu respuesta</label><input id="answer" required autocomplete="off" maxlength="100" placeholder="Escribe tu respuesta...">`;
 }
 function caseView(c){
  const n=count(c),p=c.puzzles[n];
- view.innerHTML=`<section class="section puzzle"><a href="#inicio">← Todos los casos</a><p class="eyebrow">EXPEDIENTE ${c.number} / ${c.level.toUpperCase()}</p><h1>${c.title}</h1><p>${c.story}</p><progress max="${c.puzzles.length}" value="${n}"></progress><p>${n} de ${c.puzzles.length} enigmas superados</p>${p?`<div class="card"><span class="tag">ENIGMA ${n+1}</span><h2>${p.question}</h2><div class="clue">${esc(p.clue)}</div><form id="answerForm">${puzzleInteraction(p)}<div class="actions"><button type="submit" id="verify">Comprobar deducción</button><button type="button" class="secondary" id="hint">Pedir pista</button></div></form><div class="feedback" id="feedback" role="status"></div></div>`:`<div class="card"><p class="eyebrow">✓ CASO CERRADO</p><h2>Misterio resuelto</h2><p>Has obtenido ${c.puzzles.length*100} puntos.</p><a class="btn" href="#inicio">Volver a la central</a></div>`}<h2 class="section">Pistas recuperadas</h2>${c.puzzles.slice(0,n).map((x,i)=>`<div class="card"><span class="tag">PISTA ${i+1}</span><p>${x.reveal}</p></div>`).join('')||'<p>Aún no hay pistas recuperadas.</p>'}</section>`;
+ view.innerHTML=`<section class="section puzzle"><a href="#inicio">← Todos los casos</a><p class="eyebrow">EXPEDIENTE ${c.number} / ${c.level.toUpperCase()}</p><h1>${c.title}</h1><p>${c.story}</p><progress max="${c.puzzles.length}" value="${n}"></progress><p>${n} de ${c.puzzles.length} enigmas superados</p>${p?`<div class="card"><span class="tag">ENIGMA ${n+1}</span><h2>${p.question}</h2><div class="clue">${esc(p.clue)}</div><form id="answerForm">${puzzleInteraction(p)}<div class="actions"><button type="submit" id="verify">${p.type==='match'?'Confirmar conexiones':p.type==='scene'?'Cerrar investigación':'Comprobar deducción'}</button><button type="button" class="secondary" id="hint">Pedir pista</button></div></form><div class="feedback" id="feedback" role="status"></div></div>`:`<div class="card"><p class="eyebrow">✓ CASO CERRADO</p><h2>Misterio resuelto</h2><p>Has obtenido ${c.puzzles.length*100} puntos.</p><a class="btn" href="#inicio">Volver a la central</a></div>`}<h2 class="section">Pistas recuperadas</h2>${c.puzzles.slice(0,n).map((x,i)=>`<div class="card"><span class="tag">PISTA ${i+1}</span><p>${x.reveal}</p></div>`).join('')||'<p>Aún no hay pistas recuperadas.</p>'}</section>`;
  if(!p)return;
- let selectedAnswer=null,selectedItems=[],inspected=new Set();
+ let selectedAnswer=null,selectedItems=[],inspected=new Set(),matchedLeft=new Set(),matchedRight=new Set(),selectedLeft=null,inventory=new Set(),sceneComplete=false;
  const feedback=$('#feedback'),verify=$('#verify');
- if(p.type==='inspect'||p.type==='choice')verify.disabled=true;
+ if(['inspect','choice','match','scene'].includes(p.type))verify.disabled=true;
  $('#hint').onclick=()=>{feedback.textContent=p.hint;};
  view.querySelectorAll('[data-inspect]').forEach(button=>button.onclick=()=>{
   const id=button.dataset.inspect;
@@ -36,6 +38,39 @@ function caseView(c){
  view.querySelectorAll('[data-option]').forEach(button=>button.onclick=()=>{
   selectedAnswer=button.dataset.option;verify.disabled=false;
   view.querySelectorAll('[data-option]').forEach(option=>{option.classList.toggle('selected',option===button);option.setAttribute('aria-pressed',String(option===button));});
+ });
+ view.querySelectorAll('[data-match-left]').forEach(button=>button.onclick=()=>{
+  if(matchedLeft.has(button.dataset.matchLeft))return;
+  selectedLeft=button.dataset.matchLeft;
+  view.querySelectorAll('[data-match-left]').forEach(option=>{option.classList.toggle('selected',option===button);option.setAttribute('aria-pressed',String(option===button));});
+ });
+ view.querySelectorAll('[data-match-right]').forEach(button=>button.onclick=()=>{
+  if(selectedLeft===null){feedback.textContent='Primero selecciona un rastro.';return;}
+  const rightId=button.dataset.matchRight;
+  if(matchedRight.has(rightId))return;
+  if(p.matches[selectedLeft]!==rightId){
+   feedback.textContent='Esa conexión no coincide. Prueba con otra correspondencia.';
+   selectedLeft=null;view.querySelectorAll('[data-match-left]').forEach(option=>{option.classList.remove('selected');option.setAttribute('aria-pressed','false');});return;
+  }
+  matchedLeft.add(selectedLeft);matchedRight.add(rightId);
+  view.querySelectorAll('[data-match-left],[data-match-right]').forEach(option=>{
+   if(matchedLeft.has(option.dataset.matchLeft)||matchedRight.has(option.dataset.matchRight)){option.disabled=true;option.classList.add('matched');option.setAttribute('aria-pressed','true');}
+  });
+  selectedLeft=null;feedback.textContent='Conexión correcta.';
+  $('#matchStatus').textContent=`Conexiones correctas: ${matchedLeft.size} de ${Object.keys(p.matches).length}`;
+  if(matchedLeft.size===Object.keys(p.matches).length)verify.disabled=false;
+ });
+ view.querySelectorAll('[data-scene]').forEach(button=>button.onclick=()=>{
+  const object=p.objects.find(x=>x.id===button.dataset.scene);
+  if(object.requiredItem&&!inventory.has(object.requiredItem)){feedback.textContent=object.lockedDetail;return;}
+  if(object.requiredInspections&&!object.requiredInspections.every(id=>inspected.has(id))){feedback.textContent=object.lockedDetail;return;}
+  if(inspected.has(object.id))return;
+  inspected.add(object.id);button.setAttribute('aria-expanded','true');button.querySelector('span').textContent='−';
+  view.querySelectorAll('[data-scene-detail]').forEach(detail=>{if(detail.dataset.sceneDetail===object.id)detail.hidden=false;});
+  if(object.grants)inventory.add(object.grants.id);
+  $('#sceneInventory').textContent=p.objects.filter(x=>inspected.has(x.id)).map(x=>x.grants?x.grants.label:x.label).join(', ')||'Nada todavía';
+  feedback.textContent=object.grants?`Encontraste: ${object.grants.label}.`:'Pista registrada.';
+  if(object.goal){sceneComplete=true;verify.disabled=false;feedback.textContent='Encontraste el objetivo. Cierra la investigación para guardar el caso.';}
  });
  view.querySelectorAll('[data-sequence]').forEach(button=>button.onclick=()=>{
   if(selectedItems.length>=p.items.length||selectedItems.includes(button.dataset.sequence))return;
@@ -53,11 +88,12 @@ function caseView(c){
  }
  $('#answerForm').onsubmit=async e=>{
   e.preventDefault();
-  const valid=p.type==='sequence'
-   ?selectedItems.join('|')===p.solution.join('|')
-   :p.type==='inspect'||p.type==='choice'
-    ?selectedAnswer!==null&&p.answers.some(answer=>normalize(answer)===normalize(selectedAnswer))
-    :p.answers.some(answer=>normalize(answer)===normalize($('#answer').value));
+  let valid=false;
+  if(p.type==='sequence')valid=selectedItems.join('|')===p.solution.join('|');
+  else if(p.type==='match')valid=matchedLeft.size===Object.keys(p.matches).length;
+  else if(p.type==='scene')valid=sceneComplete;
+  else if(p.type==='inspect'||p.type==='choice')valid=selectedAnswer!==null&&p.answers.some(answer=>normalize(answer)===normalize(selectedAnswer));
+  else valid=p.answers.some(answer=>normalize(answer)===normalize($('#answer').value));
   if(!valid){feedback.textContent='Esa conclusión no coincide. Vuelve a revisar las pistas.';return;}
   verify.disabled=true;
   try{const record={id:c.id,step:n+1,updated:new Date().toISOString()};await put('progress',record);state[c.id]=record;if(location.hash===`#caso/${c.id}`)caseView(c);}

@@ -110,7 +110,7 @@
     ]
   },
   {
-    "id": "boveda-interactiva",
+    "id": "boveda-interactiva-v2",
     "title": "La bóveda de cristal",
     "number": "03",
     "level": "Avanzado",
@@ -150,27 +150,27 @@
         "reveal": "La alarma se silenció desde dentro, después de abrir la vitrina."
       },
       {
-        "type": "inspect",
-        "question": "¿Quién tenía acceso a la sala?",
-        "clue": "Compara los registros de acceso con los objetos encontrados junto al pedestal.",
-        "hint": "La fibra coincide con la prenda mencionada en uno de los registros.",
-        "evidence": [
-          {"id": "keylog", "title": "Registro de llaves", "detail": "La llave de la sala fue retirada por Mara y devuelta antes del cierre."},
-          {"id": "fiber", "title": "Fibra en el pedestal", "detail": "Es lana azul, igual al abrigo que Mara llevaba durante su turno."},
-          {"id": "alibi", "title": "Nota de la guardia", "detail": "Nico estaba en la entrada principal cuando sonó la alarma."}
+        "type": "match",
+        "question": "Conecta cada rastro con lo que demuestra",
+        "clue": "Une las pruebas con su origen o significado. Cada rastro tiene una correspondencia distinta.",
+        "hint": "La fibra habla de ropa; el rectángulo limpio marca algo que ya no está.",
+        "leftItems": [
+          {"id": "fiber", "label": "Fibra azul"},
+          {"id": "dust", "label": "Rectángulo limpio en el pedestal"},
+          {"id": "window", "label": "Ventana cerrada por dentro"}
         ],
-        "options": [
-          {"value": "mara", "label": "Mara"},
-          {"value": "nico", "label": "Nico"},
-          {"value": "guard", "label": "La supervisora"}
+        "rightItems": [
+          {"id": "escape", "label": "Descarta una salida por la ventana"},
+          {"id": "coat", "label": "Abrigo de Mara"},
+          {"id": "artifact", "label": "Pieza retirada de la vitrina"}
         ],
-        "answers": ["mara"],
-        "reveal": "Mara tuvo la llave y dejó una fibra junto al pedestal."
+        "matches": {"fiber": "coat", "dust": "artifact", "window": "escape"},
+        "reveal": "La fibra identifica el abrigo; el pedestal confirma la pieza retirada y la ventana descarta una salida."
       }
     ]
   },
   {
-    "id": "lavadero-interactivo",
+    "id": "lavadero-interactivo-v2",
     "title": "El pozole del lavadero",
     "number": "04",
     "level": "Avanzado",
@@ -192,22 +192,16 @@
         "reveal": "La receta viajó desde el patio hasta la olla, pasando por el lavadero."
       },
       {
-        "type": "inspect",
-        "question": "¿En qué recipiente se escondió la primera pista?",
-        "clue": "Compara el contenido y las marcas de cada recipiente. La pista se ocultó donde nadie esperaría encontrar una receta.",
-        "hint": "Busca una etiqueta cambiada y una mancha que no corresponde al uso del recipiente.",
-        "evidence": [
-          {"id": "red", "title": "Cubeta roja", "detail": "Tiene espuma reciente, pero ninguna marca de papel."},
-          {"id": "blue", "title": "Cubeta azul", "detail": "La etiqueta dice «ropa», aunque dentro hay una hoja seca con olor a maíz."},
-          {"id": "white", "title": "Tina blanca", "detail": "Está vacía y cubierta de polvo uniforme."}
+        "type": "scene",
+        "question": "Explora el lavadero y abre el armario",
+        "clue": "La receta está guardada en un armario cerrado. Revisa los objetos de la escena y usa lo que encuentres.",
+        "hint": "La llave está envuelta en algo que se usa para secar.",
+        "objects": [
+          {"id": "towel", "label": "Toalla húmeda", "detail": "Entre los pliegues encuentras una llave pequeña.", "grants": {"id": "cabinet-key", "label": "Llave del armario"}},
+          {"id": "bucket", "label": "Cubeta azul", "detail": "La etiqueta dice «ropa», pero adentro hay una hoja seca con olor a maíz."},
+          {"id": "cabinet", "label": "Armario cerrado", "requiredItem": "cabinet-key", "lockedDetail": "El armario está cerrado. Busca una llave entre los objetos.", "detail": "La llave abre el armario. La receta está bajo una olla limpia.", "goal": true}
         ],
-        "options": [
-          {"value": "red", "label": "La cubeta roja"},
-          {"value": "blue", "label": "La cubeta azul"},
-          {"value": "white", "label": "La tina blanca"}
-        ],
-        "answers": ["blue"],
-        "reveal": "La etiqueta de la cubeta azul fue cambiada para ocultar la hoja."
+        "reveal": "La llave estaba en la toalla y la receta, en el armario."
       },
       {
         "type": "choice",
@@ -220,7 +214,7 @@
           {"value": "third", "label": "«La receta ya estaba bajo la olla»"}
         ],
         "answers": ["second"],
-        "reveal": "La lluvia empezó antes de que se mojara la toalla; esa persona mintió sobre cuándo la vio."
+        "reveal": "La cámara fija el inicio de la lluvia a las 20:50; esa persona lo adelantó diez minutos."
       },
       {
         "type": "sequence",
@@ -238,7 +232,7 @@
     ]
   },
   {
-    "id": "herramientas-interactivo",
+    "id": "herramientas-interactivo-v2",
     "title": "El dado y el destornillador",
     "number": "05",
     "level": "Experto",
@@ -296,27 +290,32 @@
         "reveal": "La foto y el guante contradicen la declaración de Inés."
       },
       {
-        "type": "choice",
-        "question": "La decisión del investigador",
-        "clue": "El destornillador sigue en la mesa y nadie sabe si la caja es estable. ¿Qué haces antes de continuar la inspección?",
-        "hint": "Una buena investigación conserva la escena y evita riesgos innecesarios.",
-        "options": [
-          {"value": "safe", "label": "Asegurar el área y registrar la escena antes de mover objetos"},
-          {"value": "grab", "label": "Tomar la herramienta y probar el mecanismo"},
-          {"value": "guess", "label": "Cerrar la caja y confiar en la primera sospecha"}
+        "type": "match",
+        "question": "Arma el mapa de rastros del taller",
+        "clue": "Cada marca cuenta una parte distinta de la reparación. Empareja la evidencia con el objeto que la produjo.",
+        "hint": "El polvo metálico viene del soporte; la raya fina, de una punta; la fibra, de una prenda.",
+        "leftItems": [
+          {"id": "fiber", "label": "Fibra violeta"},
+          {"id": "powder", "label": "Polvo metálico"},
+          {"id": "scratch", "label": "Raya fina"}
         ],
-        "answers": ["safe"],
-        "reveal": "La escena quedó documentada antes de que alguien tocara las pruebas."
+        "rightItems": [
+          {"id": "tip", "label": "Punta del destornillador"},
+          {"id": "jacket", "label": "Chamarra de Inés"},
+          {"id": "support", "label": "Soporte del dado"}
+        ],
+        "matches": {"fiber": "jacket", "powder": "support", "scratch": "tip"},
+        "reveal": "Los rastros conectan la chamarra de Inés, el soporte del dado y el destornillador."
       }
     ]
   },
   {
-    "id": "chiwis-interactivo",
+    "id": "chiwis-interactivo-v2",
     "title": "Chiwis y la caja limpia y segura",
     "number": "06",
     "level": "Especial",
     "symbol": "✦",
-    "story": "Expediente fan-made y no oficial, inspirado en referencias compartidas por la comunidad: Chiwis, el dado, el destornillador, «limpio y seguro» y el pozole de lavadero.",
+    "story": "Chiwis dejó una serie de pistas entre una olla, un dado y una caja. Recorre el lugar, registra los detalles y descubre qué pasó antes de que amanezca.",
     "puzzles": [
       {
         "type": "inspect",
@@ -351,35 +350,34 @@
         "reveal": "La nota viajó escondida bajo la tapa durante todo el recorrido."
       },
       {
-        "type": "choice",
-        "question": "Una caja «limpia y segura»",
-        "clue": "Encuentras un objeto desconocido dentro de la caja, junto a una etiqueta que dice «limpio y seguro». ¿Cuál es la primera decisión responsable?",
-        "hint": "No basta con que una etiqueta lo afirme; primero hay que verificar sin manipularlo.",
-        "options": [
-          {"value": "report", "label": "No tocarlo, aislar el área y avisar a la persona responsable"},
-          {"value": "smell", "label": "Acercarlo para identificarlo por el olor"},
-          {"value": "move", "label": "Cambiarlo de caja para revisar el fondo"}
+        "type": "scene",
+        "question": "Registra la escena «limpio y seguro»",
+        "clue": "No muevas la caja. Examina la etiqueta y el sello; después abre el registro de campo para dejar constancia.",
+        "hint": "El registro solo se habilita cuando inspeccionas tanto la etiqueta como el sello.",
+        "objects": [
+          {"id": "label", "label": "Etiqueta de la caja", "detail": "Dice «limpio y seguro», pero no muestra quién la revisó ni cuándo."},
+          {"id": "seal", "label": "Sello de seguridad", "detail": "El sello está intacto. La caja no necesita abrirse para documentar la escena."},
+          {"id": "report", "label": "Registro de campo", "requiredInspections": ["label", "seal"], "lockedDetail": "Antes de registrar, revisa la etiqueta y el sello sin tocar la caja.", "detail": "Anotas el estado, mantienes la caja cerrada y avisas a la persona responsable.", "goal": true}
         ],
-        "answers": ["report"],
-        "reveal": "La etiqueta no sustituye una revisión segura: la caja quedó intacta y se reportó."
+        "reveal": "La caja quedó cerrada, la escena documentada y el hallazgo reportado."
       },
       {
-        "type": "inspect",
-        "question": "¿Quién movió el dado?",
-        "clue": "El dado no se rompió, pero alguien abrió la caja. Compara los rastros alrededor del cierre.",
-        "hint": "La herramienta dejó una marca y una fibra; ambas apuntan a la misma persona.",
-        "evidence": [
-          {"id": "scratch", "title": "Marca del cierre", "detail": "Hay una raya fina compatible con la punta de un destornillador."},
-          {"id": "fiber", "title": "Fibra en la caja", "detail": "Es de la manga amarilla que llevaba Chiwis."},
-          {"id": "witness", "title": "Testimonio", "detail": "La persona de la manga amarilla pidió revisar el dado antes de que cerraran la sala."}
+        "type": "match",
+        "question": "Conecta los rastros con la historia del dado",
+        "clue": "Relaciona cada señal con lo que revela sobre el cierre de la caja.",
+        "hint": "La raya apunta a una herramienta; la fibra, a una manga; la petición, a quién tuvo acceso.",
+        "leftItems": [
+          {"id": "scratch", "label": "Raya fina en el cierre"},
+          {"id": "fiber", "label": "Fibra amarilla"},
+          {"id": "request", "label": "Pidió revisar el dado"}
         ],
-        "options": [
-          {"value": "chiwis", "label": "Chiwis"},
-          {"value": "guard", "label": "La persona de seguridad"},
-          {"value": "cook", "label": "La persona de la cocina"}
+        "rightItems": [
+          {"id": "access", "label": "Tuvo acceso a la sala"},
+          {"id": "sleeve", "label": "Manga de Chiwis"},
+          {"id": "tool", "label": "Punta del destornillador"}
         ],
-        "answers": ["chiwis"],
-        "reveal": "La manga amarilla y la petición de revisar el dado identifican a Chiwis."
+        "matches": {"scratch": "tool", "fiber": "sleeve", "request": "access"},
+        "reveal": "La herramienta abrió la caja; la fibra y el testimonio identifican a Chiwis."
       }
     ]
   }

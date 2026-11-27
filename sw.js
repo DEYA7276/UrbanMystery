@@ -1,4 +1,4 @@
-const STATIC='urban-static-v3', DYNAMIC='urban-dynamic-v1';
+const STATIC='urban-static-v4', DYNAMIC='urban-dynamic-v1';
 const SHELL=['./','./index.html','./style.css','./app.js','./manifest.json','./icons/icon-192.png','./icons/icon-512.png','./icons/maskable-512.png','./data/cases.json'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(STATIC).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('urban-')&&![STATIC,DYNAMIC].includes(k)).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
