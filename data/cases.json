@@ -1,7 +1,386 @@
 [
-{"id":"archivo","title":"El expediente desaparecido","number":"01","level":"Inicial","symbol":"▤","story":"Un archivista desapareció dejando una caja cerrada. Su último informe contiene tres claves. Recupera el expediente antes de que el caso quede olvidado.","puzzles":[{"question":"El reloj detenido","clue":"2, 4, 8, 16, ?","hint":"Cada número duplica al anterior.","answers":["32"],"reveal":"La llave estaba en el cajón 32."},{"question":"La nota invertida","clue":"OTERCES","hint":"Lee las letras de derecha a izquierda.","answers":["secreto"],"reveal":"La nota identifica una caja marcada SECRETO."},{"question":"El guardián del archivo","clue":"Tengo hojas pero no soy árbol. Tengo lomo pero no soy animal. ¿Qué soy?","hint":"Lo encuentras en una biblioteca.","answers":["libro","un libro"],"reveal":"El expediente se escondía dentro de un libro falso."}]},
-{"id":"senal","title":"La señal de medianoche","number":"02","level":"Intermedio","symbol":"⌁","story":"Una radio abandonada transmite mensajes a medianoche. Descifra la señal y descubre el origen de la transmisión.","puzzles":[{"question":"Frecuencia perdida","clue":"1, 1, 2, 3, 5, 8, ?","hint":"Suma los dos números anteriores.","answers":["13"],"reveal":"La transmisión usa el canal 13."},{"question":"Código alfabético","clue":"12 - 21 - 14 - 1\nA=1, B=2, C=3...","hint":"Usa el alfabeto de 26 letras, sin Ñ.","answers":["luna"],"reveal":"La palabra LUNA identifica una antena."},{"question":"La voz invisible","clue":"Repito lo que dices, pero no tengo boca. ¿Qué soy?","hint":"Se escucha en montañas y túneles.","answers":["eco","el eco","un eco"],"reveal":"La señal provenía de una estación de pruebas acústicas."}]},
-{"id":"boveda","title":"La bóveda de cristal","number":"03","level":"Avanzado","symbol":"◇","story":"Un museo conserva una pieza en una bóveda protegida por enigmas. Reconstruye el código de seguridad de una exposición ficticia.","puzzles":[{"question":"Los cuadrados","clue":"1, 4, 9, 16, 25, ?","hint":"Son números elevados al cuadrado.","answers":["36"],"reveal":"El primer código es 36."},{"question":"El mensaje desplazado","clue":"DBKB\nCada letra avanzó una posición en el alfabeto de 26 letras.","hint":"D se convierte en C.","answers":["caja"],"reveal":"La segunda clave está en la caja de exhibición."},{"question":"La combinación final","clue":"Soy un número de tres cifras. La centena es 3, la decena es el doble de la centena y la unidad es la mitad de la decena. ¿Qué número soy?","hint":"3, 6 y una última cifra.","answers":["363"],"reveal":"La bóveda se abre: la pieza era un mensaje del fundador del museo."}]},
-{"id":"lavadero","title":"El pozole del lavadero","number":"04","level":"Avanzado","symbol":"♨","story":"En una vieja lavandería aparece una receta escondida entre las notas del turno nocturno. Sigue las cuentas y descifra qué se intentó ocultar en el lavadero.","puzzles":[{"question":"La clave de las cubetas","clue":"La clave tiene dos cifras. Está entre 20 y 40, es par, sus cifras suman 6 y, al invertirla, aumenta en 18. ¿Cuál es?","hint":"Si las cifras son a y b, invertirlas cambia el número en 9 × (b − a).","answers":["24"],"reveal":"La clave 24 abre el registro de las cubetas."},{"question":"El ritmo de la olla","clue":"2, 6, 12, 20, 30, ?","hint":"Mira cuánto aumenta cada término: +4, +6, +8, +10…","answers":["42"],"reveal":"El turno marcado con 42 coincide con la nota de la cocina."},{"question":"La receta cifrada","clue":"16 - 15 - 26 - 15 - 12 - 5\nA=1, B=2… Z=26. No uses la Ñ.","hint":"Convierte cada número en su letra correspondiente.","answers":["pozole"],"reveal":"La palabra descifrada es POZOLE; no era una lista de lavandería."},{"question":"El orden del lavadero","clue":"Cuatro fichas ocupan los lugares 1 al 4: agua, jabón, maíz y chile. El agua no está en los extremos; el jabón va inmediatamente antes del maíz; y el chile va después del agua. ¿Qué ficha queda en el lugar 4?","hint":"Como el agua no puede ir al 1 ni al 4, prueba primero el lugar 2 y comprueba si quedan espacios para el jabón y el maíz.","answers":["chile","el chile"],"reveal":"El chile ocupa el cuarto lugar: la receta señalaba el escondite final."}]},
-{"id":"herramientas","title":"El dado y el destornillador","number":"05","level":"Experto","symbol":"⚙","story":"Un taller fue cerrado después de que alguien cambiara la combinación de su caja fuerte. Tres registros, una distribución de sospechosos y una secuencia revelan quién guardó la herramienta.","puzzles":[{"question":"La tirada imposible","clue":"Tres dados muestran A, B y C. A + B + C = 14; A es el doble de B; C es 2 más que B. ¿Qué código forman, en ese orden, A-B-C?","hint":"Sustituye A=2B y C=B+2 en la suma. Resuelve primero B.","answers":["635","6-3-5"],"reveal":"La tirada correcta es 6-3-5."},{"question":"La nota del norte","clue":"PQTVG\nCada letra del mensaje original fue desplazada dos lugares hacia delante en el alfabeto inglés (sin Ñ). Recupera la palabra.","hint":"Para descifrar, retrocede dos letras: P→N, Q→O…","answers":["norte"],"reveal":"La nota apunta al norte del taller."},{"question":"Quién tenía la ficha","clue":"Mara, Nico, Sol y Teo estaban en cuatro lugares distintos: taller, patio, archivo y cocina.\n• Sol estaba en la cocina.\n• Mara no estaba en el taller ni en el archivo.\n• Nico no estaba en el patio ni en la cocina.\n• Teo no estaba en el archivo.\n¿Quién tenía la ficha del archivo?","hint":"Coloca primero a Sol. Luego encuentra el único lugar posible para Mara y descarta ese lugar para los demás.","answers":["nico"],"reveal":"Nico estaba en el archivo y tenía la ficha."},{"question":"El código del destornillador","clue":"3, 7, 15, 31, ?\nLa misma operación se aplica en cada paso.","hint":"Multiplica por 2 y suma 1.","answers":["63"],"reveal":"El último código es 63. La caja fuerte queda abierta."}]},
-{"id":"aimep3","title":"El archivo AimeP3","number":"06","level":"Especial · Fan-made","symbol":"✦","story":"Expediente fan-made y no oficial, creado a partir de las referencias que compartió la comunidad: Chiwis, el dado y el destornillador, “limpio y seguro” y el pozole de lavadero. No representa una historia oficial.","puzzles":[{"question":"El apodo al revés","clue":"En el margen alguien escribió SIWIHC. Lee la palabra desde el final hasta el principio.","hint":"Empieza por la última letra y conserva el orden inverso.","answers":["chiwis"],"reveal":"La nota dice CHIWIS."},{"question":"El dado y el destornillador","clue":"Tres dados muestran A, B y C: A+B+C=14, A=2×B y C=B+2. Usa la clave A-B-C para abrir el cajón.","hint":"Primero despeja B: 2B+B+(B+2)=14.","answers":["635","6-3-5"],"reveal":"El cajón reconoce el código 6-3-5."},{"question":"Limpio y seguro","clue":"Toma la inicial de cada palabra de “LIMPIO Y SEGURO”. Convierte esas tres letras con A=1…Z=26 y suma sus valores. ¿Qué número obtienes?","hint":"Las iniciales son L, Y y S. Busca sus posiciones en el alfabeto.","answers":["56"],"reveal":"L (12) + Y (25) + S (19) da 56."},{"question":"La última nota del lavadero","clue":"La nota dice “POZOLE DE LAVADERO”. Cuenta las letras de POZOLE y las de LAVADERO por separado, sin contar espacios. ¿Cuántas letras hay en total?","hint":"POZOLE tiene 6 letras. Cuenta también las de LAVADERO.","answers":["14"],"reveal":"6 + 8 = 14: el expediente fan-made queda cerrado."}]}]
+  {
+    "id": "archivo-interactivo",
+    "title": "El expediente desaparecido",
+    "number": "01",
+    "level": "Inicial",
+    "symbol": "▤",
+    "story": "Un archivista desapareció y dejó una caja abierta, huellas de polvo y un libro fuera de lugar. Reconstruye sus últimos pasos.",
+    "puzzles": [
+      {
+        "type": "inspect",
+        "question": "¿Qué cajón abrió el archivista antes de desaparecer?",
+        "clue": "Examina cada hallazgo del escritorio. Ninguna pista por sí sola cuenta toda la historia.",
+        "hint": "Busca un número que aparezca tanto en el rastro como en el inventario.",
+        "evidence": [
+          {"id": "dust", "title": "Polvo en el escritorio", "detail": "Una línea limpia atraviesa el polvo y termina justo frente a un cajón."},
+          {"id": "inventory", "title": "Inventario rasgado", "detail": "Solo se alcanza a leer: «cajón 32: abierto después del cierre»."},
+          {"id": "book", "title": "Libro en el suelo", "detail": "El libro está cerrado y no tiene polvo removido en el lomo."}
+        ],
+        "options": [
+          {"value": "12", "label": "El cajón 12"},
+          {"value": "32", "label": "El cajón 32"},
+          {"value": "book", "label": "El interior del libro"}
+        ],
+        "answers": ["32"],
+        "reveal": "El cajón 32 fue abierto después del cierre."
+      },
+      {
+        "type": "sequence",
+        "question": "Reconstruye el último recorrido",
+        "clue": "La cámara captó huellas que entraban por la puerta trasera. Cerca del calefactor se secaron; luego dejaron polvo sobre el libro y, al final, la puerta del archivo quedó entornada.",
+        "hint": "Empieza donde aparecen las huellas y termina en el último lugar que quedó alterado.",
+        "items": [
+          {"id": "door", "label": "Puerta trasera"},
+          {"id": "heater", "label": "Calefactor"},
+          {"id": "book", "label": "Libro polvoriento"},
+          {"id": "archive", "label": "Puerta del archivo"}
+        ],
+        "solution": ["door", "heater", "book", "archive"],
+        "reveal": "El recorrido termina en la puerta del archivo, no en la salida."
+      },
+      {
+        "type": "choice",
+        "question": "El guardián del archivo",
+        "clue": "Tengo hojas pero no soy árbol. Tengo lomo pero no soy animal. Elige el objeto que encaja con ambas pistas.",
+        "hint": "Lo encuentras en una biblioteca.",
+        "options": [
+          {"value": "book", "label": "Un libro"},
+          {"value": "map", "label": "Un mapa"},
+          {"value": "coat", "label": "Un abrigo"}
+        ],
+        "answers": ["book"],
+        "reveal": "El expediente se escondía dentro de un libro falso."
+      }
+    ]
+  },
+  {
+    "id": "senal-interactiva",
+    "title": "La señal de medianoche",
+    "number": "02",
+    "level": "Intermedio",
+    "symbol": "⌁",
+    "story": "Una radio abandonada transmite fragmentos de una conversación. Ordena los mensajes y averigua desde dónde salen.",
+    "puzzles": [
+      {
+        "type": "inspect",
+        "question": "¿De dónde viene la voz?",
+        "clue": "Escucha las transcripciones recuperadas. Usa los detalles del ambiente para distinguir el lugar.",
+        "hint": "Un sonido se repite con claridad; otro aparece solo una vez.",
+        "evidence": [
+          {"id": "voice", "title": "Fragmento de voz", "detail": "La voz anuncia una salida y se corta antes de decir el destino."},
+          {"id": "sound", "title": "Ruido de fondo", "detail": "Se oyen ruedas sobre rieles y una campana de salida."},
+          {"id": "echo", "title": "Prueba de eco", "detail": "Al final del mensaje, la última sílaba rebota varias veces en un espacio cerrado."}
+        ],
+        "options": [
+          {"value": "tunnel", "label": "Un túnel ferroviario"},
+          {"value": "garden", "label": "Un jardín abierto"},
+          {"value": "kitchen", "label": "Una cocina"}
+        ],
+        "answers": ["tunnel"],
+        "reveal": "La transmisión se refleja dentro de un túnel ferroviario."
+      },
+      {
+        "type": "sequence",
+        "question": "Ordena los fragmentos de la transmisión",
+        "clue": "El registro indica que primero se encendió la antena. Después apareció la voz; el eco devolvió sus últimas palabras y, cuando cesó, se apagó el grabador.",
+        "hint": "El eco no puede aparecer antes de la voz que lo provoca.",
+        "items": [
+          {"id": "antenna", "label": "Antena encendida"},
+          {"id": "voice", "label": "Se oye la voz"},
+          {"id": "echo", "label": "Regresa el eco"},
+          {"id": "recorder", "label": "Grabador apagado"}
+        ],
+        "solution": ["antenna", "voice", "echo", "recorder"],
+        "reveal": "La antena seguía activa durante toda la transmisión."
+      },
+      {
+        "type": "choice",
+        "question": "La voz invisible",
+        "clue": "La grabación repite la última palabra sin que nadie vuelva a hablar. ¿Qué fenómeno debes seguir para encontrar la fuente?",
+        "hint": "Se escucha en montañas, túneles y habitaciones vacías.",
+        "options": [
+          {"value": "echo", "label": "El eco"},
+          {"value": "static", "label": "La estática"},
+          {"value": "silence", "label": "El silencio"}
+        ],
+        "answers": ["echo"],
+        "reveal": "El eco señaló la estación de pruebas acústicas."
+      }
+    ]
+  },
+  {
+    "id": "boveda-interactiva",
+    "title": "La bóveda de cristal",
+    "number": "03",
+    "level": "Avanzado",
+    "symbol": "◇",
+    "story": "Una pieza desapareció de un museo cerrado. Las vitrinas siguen intactas, pero alguien alteró el recorrido de seguridad.",
+    "puzzles": [
+      {
+        "type": "inspect",
+        "question": "¿Qué vitrina fue abierta?",
+        "clue": "La alarma no se activó. Revisa las señales pequeñas que dejó quien movió la pieza.",
+        "hint": "Busca una marca que no podría aparecer si el vidrio siguiera cerrado.",
+        "evidence": [
+          {"id": "glass", "title": "Vitrina norte", "detail": "No tiene huellas en el vidrio; el sello de cierre sigue intacto."},
+          {"id": "pedestal", "title": "Vitrina central", "detail": "Hay un rectángulo limpio en el polvo del pedestal y una fibra atrapada en el borde."},
+          {"id": "window", "title": "Ventana del museo", "detail": "Está cerrada por dentro y el polvo del marco no se ha movido."}
+        ],
+        "options": [
+          {"value": "north", "label": "La vitrina norte"},
+          {"value": "center", "label": "La vitrina central"},
+          {"value": "window", "label": "La ventana"}
+        ],
+        "answers": ["center"],
+        "reveal": "La vitrina central fue abierta sin romper el cristal."
+      },
+      {
+        "type": "sequence",
+        "question": "Restaura la secuencia de la alarma",
+        "clue": "La guardia anotó que vio una sombra antes de oír el clic. El sensor registró movimiento después del clic y la alarma se silenció cuando llegó la supervisora.",
+        "hint": "La sombra precede al clic; la supervisora llega al final.",
+        "items": [
+          {"id": "shadow", "label": "Sombra en la sala"},
+          {"id": "click", "label": "Clic de la vitrina"},
+          {"id": "sensor", "label": "Sensor de movimiento"},
+          {"id": "guard", "label": "Llega la supervisora"}
+        ],
+        "solution": ["shadow", "click", "sensor", "guard"],
+        "reveal": "La alarma se silenció desde dentro, después de abrir la vitrina."
+      },
+      {
+        "type": "inspect",
+        "question": "¿Quién tenía acceso a la sala?",
+        "clue": "Compara los registros de acceso con los objetos encontrados junto al pedestal.",
+        "hint": "La fibra coincide con la prenda mencionada en uno de los registros.",
+        "evidence": [
+          {"id": "keylog", "title": "Registro de llaves", "detail": "La llave de la sala fue retirada por Mara y devuelta antes del cierre."},
+          {"id": "fiber", "title": "Fibra en el pedestal", "detail": "Es lana azul, igual al abrigo que Mara llevaba durante su turno."},
+          {"id": "alibi", "title": "Nota de la guardia", "detail": "Nico estaba en la entrada principal cuando sonó la alarma."}
+        ],
+        "options": [
+          {"value": "mara", "label": "Mara"},
+          {"value": "nico", "label": "Nico"},
+          {"value": "guard", "label": "La supervisora"}
+        ],
+        "answers": ["mara"],
+        "reveal": "Mara tuvo la llave y dejó una fibra junto al pedestal."
+      }
+    ]
+  },
+  {
+    "id": "lavadero-interactivo",
+    "title": "El pozole del lavadero",
+    "number": "04",
+    "level": "Avanzado",
+    "symbol": "♨",
+    "story": "En una vieja lavandería aparece una receta escondida entre objetos fuera de lugar. Sigue el rastro sin tocar nada hasta saber quién dejó el mensaje.",
+    "puzzles": [
+      {
+        "type": "sequence",
+        "question": "Reconstruye el recorrido de la receta",
+        "clue": "La huella entra desde el patio y llega al lavadero. Hay jabón junto a la llave; una toalla húmeda cuelga antes de la puerta de la cocina. La receta apareció al final, debajo de una olla limpia.",
+        "hint": "Sigue el camino desde la entrada hasta el último escondite.",
+        "items": [
+          {"id": "patio", "label": "Patio"},
+          {"id": "sink", "label": "Lavadero"},
+          {"id": "towel", "label": "Toalla húmeda"},
+          {"id": "pot", "label": "Olla limpia"}
+        ],
+        "solution": ["patio", "sink", "towel", "pot"],
+        "reveal": "La receta viajó desde el patio hasta la olla, pasando por el lavadero."
+      },
+      {
+        "type": "inspect",
+        "question": "¿En qué recipiente se escondió la primera pista?",
+        "clue": "Compara el contenido y las marcas de cada recipiente. La pista se ocultó donde nadie esperaría encontrar una receta.",
+        "hint": "Busca una etiqueta cambiada y una mancha que no corresponde al uso del recipiente.",
+        "evidence": [
+          {"id": "red", "title": "Cubeta roja", "detail": "Tiene espuma reciente, pero ninguna marca de papel."},
+          {"id": "blue", "title": "Cubeta azul", "detail": "La etiqueta dice «ropa», aunque dentro hay una hoja seca con olor a maíz."},
+          {"id": "white", "title": "Tina blanca", "detail": "Está vacía y cubierta de polvo uniforme."}
+        ],
+        "options": [
+          {"value": "red", "label": "La cubeta roja"},
+          {"value": "blue", "label": "La cubeta azul"},
+          {"value": "white", "label": "La tina blanca"}
+        ],
+        "answers": ["blue"],
+        "reveal": "La etiqueta de la cubeta azul fue cambiada para ocultar la hoja."
+      },
+      {
+        "type": "choice",
+        "question": "La nota contradictoria",
+        "clue": "Tres personas declararon: «No entré al lavadero»; «La lluvia ya había empezado a las 20:40»; «La receta ya estaba bajo la olla cuando llegué». La cámara registra que empezó a llover a las 20:50 y muestra la toalla seca a las 20:45 y mojada a las 20:55. ¿Qué declaración contradice la evidencia?",
+        "hint": "Compara la hora que da la segunda persona con la marca de tiempo de la cámara.",
+        "options": [
+          {"value": "first", "label": "«No entré al lavadero»"},
+          {"value": "second", "label": "«La lluvia ya había empezado a las 20:40»"},
+          {"value": "third", "label": "«La receta ya estaba bajo la olla»"}
+        ],
+        "answers": ["second"],
+        "reveal": "La lluvia empezó antes de que se mojara la toalla; esa persona mintió sobre cuándo la vio."
+      },
+      {
+        "type": "sequence",
+        "question": "Ordena los hallazgos de la escena",
+        "clue": "El reporte indica: primero se encontró la hoja seca en la cubeta; luego se descubrió la etiqueta cambiada; al final, la receta completa apareció debajo de la olla.",
+        "hint": "Separa la primera pista, la maniobra para ocultarla y el hallazgo final.",
+        "items": [
+          {"id": "leaf", "label": "Hoja en la cubeta"},
+          {"id": "label", "label": "Etiqueta cambiada"},
+          {"id": "recipe", "label": "Receta bajo la olla"}
+        ],
+        "solution": ["leaf", "label", "recipe"],
+        "reveal": "La etiqueta falsa era una distracción; la receta completa estaba en la cocina."
+      }
+    ]
+  },
+  {
+    "id": "herramientas-interactivo",
+    "title": "El dado y el destornillador",
+    "number": "05",
+    "level": "Experto",
+    "symbol": "⚙",
+    "story": "Alguien cambió una pieza del dado de colección y dejó el destornillador en el taller. Interroga las pruebas para descubrir quién entró y qué hizo.",
+    "puzzles": [
+      {
+        "type": "inspect",
+        "question": "¿Quién dejó la marca en el destornillador?",
+        "clue": "No acuses a quien estuvo cerca: busca la coincidencia entre las marcas y los objetos personales.",
+        "hint": "Una de las pruebas conecta una fibra con una prenda; otra confirma quién tuvo acceso.",
+        "evidence": [
+          {"id": "handle", "title": "Mango del destornillador", "detail": "Tiene una fibra violeta atrapada bajo el borde de goma."},
+          {"id": "coat", "title": "Abrigos del personal", "detail": "Solo Inés llevaba una chamarra violeta durante el turno."},
+          {"id": "log", "title": "Bitácora del taller", "detail": "Inés pidió la llave del taller y la devolvió después del cierre."}
+        ],
+        "options": [
+          {"value": "ines", "label": "Inés"},
+          {"value": "ruben", "label": "Rubén"},
+          {"value": "lola", "label": "Lola"}
+        ],
+        "answers": ["ines"],
+        "reveal": "La fibra, la chamarra y la bitácora sitúan a Inés en el taller."
+      },
+      {
+        "type": "sequence",
+        "question": "Ordena lo que pasó con el dado",
+        "clue": "Las marcas muestran que primero se retiró la tapa de la caja, después se ajustó el soporte; el dado fue colocado de nuevo y la caja se cerró al final.",
+        "hint": "No se puede ajustar el soporte antes de abrir la caja.",
+        "items": [
+          {"id": "open", "label": "Abrir la caja"},
+          {"id": "adjust", "label": "Ajustar el soporte"},
+          {"id": "die", "label": "Colocar el dado"},
+          {"id": "close", "label": "Cerrar la caja"}
+        ],
+        "solution": ["open", "adjust", "die", "close"],
+        "reveal": "El dado se movió durante una reparación, no durante una tirada."
+      },
+      {
+        "type": "inspect",
+        "question": "¿Qué testimonio no encaja?",
+        "clue": "Una persona dice que nunca se acercó a la mesa. Examina el registro y las pruebas de contacto.",
+        "hint": "Elige a quien dejó una señal física en el objeto que asegura no haber tocado.",
+        "evidence": [
+          {"id": "glove", "title": "Guante encontrado", "detail": "Tiene polvo metálico del soporte del dado y una I bordada en el puño."},
+          {"id": "note", "title": "Declaración de Inés", "detail": "«No toqué la mesa ni la caja»."},
+          {"id": "photo", "title": "Foto del turno", "detail": "En el reflejo del cristal se ve una mano con el mismo guante junto a la caja."}
+        ],
+        "options": [
+          {"value": "ines", "label": "La declaración de Inés"},
+          {"value": "ruben", "label": "La declaración de Rubén"},
+          {"value": "lola", "label": "La declaración de Lola"}
+        ],
+        "answers": ["ines"],
+        "reveal": "La foto y el guante contradicen la declaración de Inés."
+      },
+      {
+        "type": "choice",
+        "question": "La decisión del investigador",
+        "clue": "El destornillador sigue en la mesa y nadie sabe si la caja es estable. ¿Qué haces antes de continuar la inspección?",
+        "hint": "Una buena investigación conserva la escena y evita riesgos innecesarios.",
+        "options": [
+          {"value": "safe", "label": "Asegurar el área y registrar la escena antes de mover objetos"},
+          {"value": "grab", "label": "Tomar la herramienta y probar el mecanismo"},
+          {"value": "guess", "label": "Cerrar la caja y confiar en la primera sospecha"}
+        ],
+        "answers": ["safe"],
+        "reveal": "La escena quedó documentada antes de que alguien tocara las pruebas."
+      }
+    ]
+  },
+  {
+    "id": "chiwis-interactivo",
+    "title": "Chiwis y la caja limpia y segura",
+    "number": "06",
+    "level": "Especial",
+    "symbol": "✦",
+    "story": "Expediente fan-made y no oficial, inspirado en referencias compartidas por la comunidad: Chiwis, el dado, el destornillador, «limpio y seguro» y el pozole de lavadero.",
+    "puzzles": [
+      {
+        "type": "inspect",
+        "question": "¿Cuál de las tres notas dejó Chiwis?",
+        "clue": "La portada del expediente de Chiwis lleva una chispa dibujada. Busca la nota con la misma marca y revisa dónde apareció.",
+        "hint": "La nota auténtica tiene una señal que coincide con el dibujo del margen.",
+        "evidence": [
+          {"id": "paper", "title": "Papel doblado", "detail": "Tiene una huella de harina y un dibujo pequeño de una chispa."},
+          {"id": "wall", "title": "Nota en la pared", "detail": "Está escrita con tinta fresca, pero no tiene el dibujo del margen."},
+          {"id": "drawer", "title": "Papel del cajón", "detail": "Es una lista de compras y tiene una mancha de café."}
+        ],
+        "options": [
+          {"value": "paper", "label": "El papel doblado"},
+          {"value": "wall", "label": "La nota de la pared"},
+          {"value": "drawer", "label": "La lista del cajón"}
+        ],
+        "answers": ["paper"],
+        "reveal": "El papel con la chispa y la huella de harina era la pista de Chiwis."
+      },
+      {
+        "type": "sequence",
+        "question": "Arma el recorrido del pozole",
+        "clue": "La olla salió de la cocina al patio; la dejaron junto al lavadero; después apareció la nota bajo la tapa y, por último, alguien regresó la olla a la mesa.",
+        "hint": "Sigue los lugares en el orden en que la olla los visitó.",
+        "items": [
+          {"id": "kitchen", "label": "Cocina"},
+          {"id": "patio", "label": "Patio"},
+          {"id": "sink", "label": "Lavadero"},
+          {"id": "table", "label": "Mesa"}
+        ],
+        "solution": ["kitchen", "patio", "sink", "table"],
+        "reveal": "La nota viajó escondida bajo la tapa durante todo el recorrido."
+      },
+      {
+        "type": "choice",
+        "question": "Una caja «limpia y segura»",
+        "clue": "Encuentras un objeto desconocido dentro de la caja, junto a una etiqueta que dice «limpio y seguro». ¿Cuál es la primera decisión responsable?",
+        "hint": "No basta con que una etiqueta lo afirme; primero hay que verificar sin manipularlo.",
+        "options": [
+          {"value": "report", "label": "No tocarlo, aislar el área y avisar a la persona responsable"},
+          {"value": "smell", "label": "Acercarlo para identificarlo por el olor"},
+          {"value": "move", "label": "Cambiarlo de caja para revisar el fondo"}
+        ],
+        "answers": ["report"],
+        "reveal": "La etiqueta no sustituye una revisión segura: la caja quedó intacta y se reportó."
+      },
+      {
+        "type": "inspect",
+        "question": "¿Quién movió el dado?",
+        "clue": "El dado no se rompió, pero alguien abrió la caja. Compara los rastros alrededor del cierre.",
+        "hint": "La herramienta dejó una marca y una fibra; ambas apuntan a la misma persona.",
+        "evidence": [
+          {"id": "scratch", "title": "Marca del cierre", "detail": "Hay una raya fina compatible con la punta de un destornillador."},
+          {"id": "fiber", "title": "Fibra en la caja", "detail": "Es de la manga amarilla que llevaba Chiwis."},
+          {"id": "witness", "title": "Testimonio", "detail": "La persona de la manga amarilla pidió revisar el dado antes de que cerraran la sala."}
+        ],
+        "options": [
+          {"value": "chiwis", "label": "Chiwis"},
+          {"value": "guard", "label": "La persona de seguridad"},
+          {"value": "cook", "label": "La persona de la cocina"}
+        ],
+        "answers": ["chiwis"],
+        "reveal": "La manga amarilla y la petición de revisar el dado identifican a Chiwis."
+      }
+    ]
+  }
+]
