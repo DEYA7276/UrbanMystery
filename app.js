@@ -4,6 +4,20 @@ let db,cases=[],state={},evidence=[],stream=null,installEvent,routeVersion=0,act
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const normalize=s=>s.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[.!?¿¡]/g,'');
 
+/* Clean Vector SVG Icons (No Emojis) */
+const SVG_ICONS = {
+  player: '<svg class="icon-svg player-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>',
+  trap: '<svg class="icon-svg trap-svg" viewBox="0 0 24 24"><path d="M12 2L1 21h22L12 2zm0 4.5l8.5 14.5h-17L12 6.5zm-1 6h2v4h-2zm0 5h2v2h-2z" fill="currentColor"/></svg>',
+  key: '<svg class="icon-svg key-svg" viewBox="0 0 24 24"><circle cx="7" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M11 12h9v3h-3v2h-2v-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>',
+  door: '<svg class="icon-svg door-svg" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="12" r="1.5" fill="currentColor"/><path d="M10 7h4v4h-4z" fill="currentColor"/></svg>',
+  item: '<svg class="icon-svg item-svg" viewBox="0 0 24 24"><polygon points="12 2 15.1 8.3 22 9.3 17 14.1 18.2 21 12 17.8 5.8 21 7 14.1 2 9.3 8.9 8.3 12 2" fill="none" stroke="currentColor" stroke-width="2"/></svg>',
+  goal: '<svg class="icon-svg goal-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><polygon points="9 8 16 12 9 16 9 8" fill="currentColor"/></svg>',
+  arrowUp: '<svg viewBox="0 0 24 24"><path d="M12 5l-7 7h4v7h6v-7h4z" fill="currentColor"/></svg>',
+  arrowDown: '<svg viewBox="0 0 24 24"><path d="M12 19l7-7h-4V5h-6v7H5z" fill="currentColor"/></svg>',
+  arrowLeft: '<svg viewBox="0 0 24 24"><path d="M5 12l7-7v4h7v6h-7v4z" fill="currentColor"/></svg>',
+  arrowRight: '<svg viewBox="0 0 24 24"><path d="M19 12l-7-7v4H5v6h7v4z" fill="currentColor"/></svg>'
+};
+
 function openDB(){
   return new Promise((resolve,reject)=>{
     const r=indexedDB.open('UrbanMystery',1);
@@ -46,7 +60,7 @@ function cleanupKeyHandler(){
 }
 
 function connection(){
-  $('#connection').textContent=navigator.onLine?'● En línea':'● Modo sin conexión';
+  $('#connection').textContent=navigator.onLine?'[EN LINEA]':'[OFFLINE]';
 }
 window.addEventListener('online',connection);
 window.addEventListener('offline',connection);
@@ -70,582 +84,346 @@ window.addEventListener('appinstalled',()=>{$('#install').hidden=true;installEve
 function stats(){
   return `<div class="stats">
     <div class="card stat"><strong>${cases.filter(c=>count(c)===c.puzzles.length).length}/${cases.length}</strong><p>Casos resueltos</p></div>
-    <div class="card stat"><strong>${solved()}/${total()}</strong><p>Enigmas superados</p></div>
-    <div class="card stat"><strong>+${auraPoints()}</strong><p>Aura 2026 acumulada ✨</p></div>
+    <div class="card stat"><strong>${solved()}/${total()}</strong><p>Sectores superados</p></div>
+    <div class="card stat"><strong>+${auraPoints()}</strong><p>Puntos de Aura 2026</p></div>
   </div>`;
 }
 
 function home(){
   cleanupKeyHandler();
   view.innerHTML=`<section class="hero">
-    <p class="eyebrow">ACCESO AUTORIZADO · PROTOCOLO RESOLUTIVO 2026</p>
-    <h1>La verdad está<br>entre las <span class="gold">migajas y el aura.</span></h1>
-    <p>${cases.length} expedientes interactivos. ${total()} minijuegos y enigmas visuales. Cero preguntas de texto: laberintos, objetos ocultos en la página, radio de Las Pérdidas y el lore más puro de Neza.</p>
-    <a class="btn" href="#caso/${(cases.find(c=>count(c)<c.puzzles.length)||cases[0]).id}">Continuar investigación →</a>
+    <p class="eyebrow">DIVISIÓN TÁCTICA · PROTOCOLO DE INVESTIGACIÓN</p>
+    <h1>La verdad está<br>entre las <span class="gold">pistas y las trampas.</span></h1>
+    <p>${cases.length} expedientes tácticos. ${total()} laberintos con trampas, niebla de exploración, compuertas blindadas y lore urbano auténtico.</p>
+    <a class="btn" href="#caso/${(cases.find(c=>count(c)<c.puzzles.length)||cases[0]).id}">Iniciar sector activo →</a>
   </section>
   ${stats()}
   <section class="section">
     <p class="eyebrow">ARCHIVO CENTRAL</p>
-    <h2>Expedientes disponibles</h2>
+    <h2>Expedientes clasificados</h2>
     <div class="grid">${cases.map(c=>`
       <article class="card case">
         <div class="art">${c.symbol}</div>
         <div class="content">
-          <span class="tag">CASO ${c.number} · ${c.level.toUpperCase()}</span>
+          <span class="tag">EXPEDIENTE ${c.number} · ${c.level.toUpperCase()}</span>
           <h3>${c.title}</h3>
           <p>${c.story}</p>
           <progress max="${c.puzzles.length}" value="${count(c)}"></progress>
-          <p>${count(c)} de ${c.puzzles.length} pruebas completadas</p>
-          <a class="btn secondary" href="#caso/${c.id}">${count(c)===c.puzzles.length?'Revisar expediente':'Abrir expediente'} →</a>
+          <p>${count(c)} de ${c.puzzles.length} sectores completados</p>
+          <a class="btn secondary" href="#caso/${c.id}">${count(c)===c.puzzles.length?'Revisar expediente':'Infiltrar sector'} →</a>
         </div>
       </article>`).join('')}
     </div>
   </section>`;
 }
 
-function puzzleInteraction(p){
-  if(p.type==='maze'){
-    return `<div class="maze-container">
-      <div class="aura-header">
-        <span class="aura-badge">✨ Aura en juego: +10,000</span>
-        <span class="crumbs-badge">🍞 Migajas recogidas: <span id="mazeCrumbs">0</span>/${p.requiredCrumbs||0}</span>
-      </div>
-      <p class="interaction-prompt">Supera el laberinto. Usa las flechas en pantalla o el teclado (Flechas / WASD) para guiar tu ficha hasta la meta.</p>
-      <div class="maze-board" id="mazeBoard"></div>
-      <div class="maze-controls">
-        <span class="maze-help">Controles de movimiento:</span>
-        <div class="dpad">
-          <button type="button" class="dpad-btn up" data-dir="up" aria-label="Arriba">▲</button>
-          <button type="button" class="dpad-btn left" data-dir="left" aria-label="Izquierda">◀</button>
-          <div class="dpad-center">🕹️</div>
-          <button type="button" class="dpad-btn right" data-dir="right" aria-label="Derecha">▶</button>
-          <button type="button" class="dpad-btn down" data-dir="down" aria-label="Abajo">▼</button>
-        </div>
-      </div>
-      <p id="mazeStatus" class="feedback" role="status">Llega a la meta sin dejar ni las migajas.</p>
-    </div>`;
-  }
-  if(p.type==='hidden'){
-    return `<div class="hidden-container">
-      <div class="aura-header">
-        <span class="aura-badge">✨ Aura de búsqueda: +5,000</span>
-        <span class="crumbs-badge">🎯 Hallazgos: <span id="hiddenCount">0</span>/${p.targets.length}</span>
-      </div>
-      <div class="hidden-targets-box">
-        <strong>Pistas a encontrar en la página:</strong>
-        <div class="hidden-checklist" id="hiddenChecklist">
-          ${p.targets.map(t=>`<div class="target-item" id="target-${esc(t.id)}"><span>⬜</span> ${esc(t.label)}</div>`).join('')}
-        </div>
-      </div>
-      <p class="interaction-prompt">Inspecciona la escena haciendo clic en los escondites. ¡Cuidado con las trampas que te quitan aura!</p>
-      <div class="hidden-scene-grid">
-        ${p.spots.map(s=>`<button type="button" class="hidden-card" data-spot="${esc(s.id)}"><span class="hidden-card-title">${esc(s.label)} <span>🔍</span></span><span class="hidden-card-desc">Toca para inspeccionar</span></button>`).join('')}
-      </div>
-      <p id="hiddenStatus" class="feedback" role="status">Haz clic en los rincones sospechosos de la página.</p>
-    </div>`;
-  }
-  if(p.type==='radar'){
-    return `<div class="radar-container">
-      <div class="aura-header">
-        <span class="aura-badge">✨ Señal de Las Pérdidas: +50,000 Aura</span>
-      </div>
-      <div class="radio-box">
-        <div class="radio-display">
-          <div class="radio-freq"><span id="freqDisplay">92.0</span> <small>MHz</small></div>
-          <div class="signal-meter" id="signalMeter">
-            <span class="meter-bar" id="bar1"></span>
-            <span class="meter-bar" id="bar2"></span>
-            <span class="meter-bar" id="bar3"></span>
-            <span class="meter-bar" id="bar4"></span>
-            <span class="meter-bar" id="bar5"></span>
-          </div>
-        </div>
-        <div class="radio-audio-text" id="radioAudioText">${esc(p.quotes.far)}</div>
-        <div class="radio-controls">
-          <button type="button" class="radio-btn" id="freqDownFast">- 1.0</button>
-          <button type="button" class="radio-btn" id="freqDown">- 0.1</button>
-          <input type="range" id="freqSlider" min="88.0" max="108.0" step="0.1" value="92.0">
-          <button type="button" class="radio-btn" id="freqUp">+ 0.1</button>
-          <button type="button" class="radio-btn" id="freqUpFast">+ 1.0</button>
-        </div>
-      </div>
-      <p id="radarStatus" class="interaction-prompt">Mueve la barra o pulsa los botones hasta captar los ${p.targetFreq} MHz.</p>
-    </div>`;
-  }
-  if(p.type==='lock'){
-    const count = p.dials || 3;
-    return `<div class="lock-container">
-      <div class="aura-header">
-        <span class="aura-badge">✨ Candado de Seguridad: +15,000 Aura</span>
-      </div>
-      <p class="interaction-prompt">Toca las flechas ▲ y ▼ para girar cada rueda y alinear la clave secreta.</p>
-      <div class="lock-dial-box">
-        ${Array.from({length:count},(_,i)=>`
-          <div class="dial-column">
-            <button type="button" class="dial-arrow" data-dial-idx="${i}" data-dial-dir="1" aria-label="Aumentar">▲</button>
-            <div class="dial-digit" id="dialVal${i}">0</div>
-            <button type="button" class="dial-arrow" data-dial-idx="${i}" data-dial-dir="-1" aria-label="Disminuir">▼</button>
-          </div>
-        `).join('')}
-      </div>
-      <div class="lock-status-indicator" id="lockIndicator">🔒 Candado cerrado</div>
-      <p id="lockStatus" class="feedback" role="status">Alinea la combinación correcta con los botones.</p>
-    </div>`;
-  }
-  if(p.type==='sequence'){
-    return `<p class="interaction-prompt">Toca las tarjetas en el orden en que ocurrieron los hechos:</p>
-      <div class="puzzle-options">${p.items.map(x=>`<button type="button" class="puzzle-option" data-sequence="${esc(x.id)}" aria-pressed="false">${esc(x.label)}</button>`).join('')}</div>
-      <ol id="sequencePreview" class="sequence-preview" aria-live="polite"></ol>
-      <div class="actions">
-        <button type="button" class="secondary" id="undoSequence" disabled>Deshacer último</button>
-        <button type="button" class="secondary" id="clearSequence" disabled>Reiniciar orden</button>
-      </div>`;
-  }
-  if(p.type==='inspect'){
-    return `<p class="interaction-prompt">Abre cada evidencia para examinarla. Luego toca la conclusión que encaje.</p>
-      <div class="evidence-board">${p.evidence.map(x=>`<article class="evidence-item"><button type="button" class="puzzle-option" data-inspect="${esc(x.id)}" aria-expanded="false">${esc(x.title)} <span aria-hidden="true">＋</span></button><p data-observation="${esc(x.id)}" hidden>${esc(x.detail)}</p></article>`).join('')}</div>
-      <p id="inspectionStatus" class="interaction-prompt" aria-live="polite">Evidencias examinadas: 0 de ${p.evidence.length}</p>
-      <div class="puzzle-options">${p.options.map(x=>`<button type="button" class="puzzle-option answer-option" data-option="${esc(x.value)}" disabled aria-pressed="false">${esc(x.label)}</button>`).join('')}</div>`;
-  }
-  if(p.type==='match'){
-    return `<p class="interaction-prompt">Toca un rastro de la izquierda y luego toca su correspondencia de la derecha.</p>
-      <div class="match-board">
-        <section><h3>Rastros</h3><div class="match-column">${p.leftItems.map(x=>`<button type="button" class="puzzle-option" data-match-left="${esc(x.id)}" aria-pressed="false">${esc(x.label)}</button>`).join('')}</div></section>
-        <section><h3>Correspondencias</h3><div class="match-column">${p.rightItems.map(x=>`<button type="button" class="puzzle-option" data-match-right="${esc(x.id)}" aria-pressed="false">${esc(x.label)}</button>`).join('')}</div></section>
-      </div>
-      <p id="matchStatus" class="interaction-prompt" aria-live="polite">Conexiones correctas: 0 de ${Object.keys(p.matches).length}</p>`;
-  }
-  if(p.type==='scene'){
-    return `<p class="interaction-prompt">Toca los objetos del lugar para inspeccionarlos y desbloquear los que están cerrados.</p>
-      <div class="scene-board">${p.objects.map(x=>`<article class="scene-object"><button type="button" class="puzzle-option" data-scene="${esc(x.id)}" aria-expanded="false">${esc(x.label)} <span aria-hidden="true">＋</span></button><p data-scene-detail="${esc(x.id)}" hidden>${esc(x.detail)}</p></article>`).join('')}</div>
-      <div class="scene-inventory"><strong>${p.objects.some(x=>x.grants)?'Inventario de campo:':'Pruebas registradas:'}</strong><span id="sceneInventory">Nada todavía</span></div>`;
-  }
-  return `<p class="interaction-prompt">Toca para resolver este enigma interactivo.</p>`;
-}
-
 function caseView(c){
   cleanupKeyHandler();
   const n=count(c), p=c.puzzles[n];
-  const buttonLabel = !p ? 'Volver a la central' :
-    p.type==='match'?'Confirmar conexiones':
-    p.type==='scene'?'Cerrar investigación':
-    p.type==='maze'?'Comprobar llegada 🏁':
-    p.type==='hidden'?'Validar hallazgos 🔍':
-    p.type==='radar'?'Confirmar sintonía 📻':
-    p.type==='lock'?'Abrir cerradura 🔓':
-    p.type==='sequence'?'Validar orden 📋':
-    'Comprobar resolución';
 
   view.innerHTML=`<section class="section puzzle">
-    <a href="#inicio">← Todos los casos</a>
-    <p class="eyebrow">EXPEDIENTE ${c.number} / ${c.level.toUpperCase()} · PROTOCOLO 2026</p>
+    <a href="#inicio">← Central de casos</a>
+    <p class="eyebrow">EXPEDIENTE ${c.number} / ${c.level.toUpperCase()} · FASE ${n+1}</p>
     <h1>${c.title}</h1>
     <p>${c.story}</p>
     <progress max="${c.puzzles.length}" value="${n}"></progress>
-    <p>${n} de ${c.puzzles.length} enigmas superados · Nivel de Aura: +${n*5000} ✨</p>
+    <p>${n} de ${c.puzzles.length} sectores superados · Nivel de Aura: +${n*5000}</p>
     ${p?`
       <div class="card">
-        <span class="tag">ENIGMA ${n+1} · MINIJUEGO INTERACTIVO</span>
+        <span class="tag">SECTOR TÁCTICO ${n+1} · LABERINTO Y TRAMPAS</span>
         <h2>${p.question}</h2>
         <div class="clue">${esc(p.clue)}</div>
         <form id="answerForm">
-          ${puzzleInteraction(p)}
+          <div class="tactical-hud">
+            <div class="aura-container">
+              <div class="aura-label">
+                <span>RESERVA DE AURA</span>
+                <span id="auraPercent">100%</span>
+              </div>
+              <div class="aura-meter-track">
+                <div class="aura-meter-fill" id="auraBar" style="width:100%"></div>
+              </div>
+            </div>
+            <div class="hud-badge" id="keyBadge">
+              <span>TARJETA:</span> <strong id="keyStatus">0</strong>
+            </div>
+            <div class="hud-badge" id="itemsBadge">
+              <span>OBJETIVOS:</span> <strong id="itemStatus">0/${p.requiredItems}</strong>
+            </div>
+          </div>
+          <div class="maze-wrapper" id="mazeWrapper">
+            <div class="maze-board" id="mazeBoard"></div>
+          </div>
+          <div class="maze-controls-row">
+            <div class="dpad">
+              <button type="button" class="dpad-btn up" data-dir="up" aria-label="Arriba">${SVG_ICONS.arrowUp}</button>
+              <button type="button" class="dpad-btn left" data-dir="left" aria-label="Izquierda">${SVG_ICONS.arrowLeft}</button>
+              <div class="dpad-center">PAD</div>
+              <button type="button" class="dpad-btn right" data-dir="right" aria-label="Derecha">${SVG_ICONS.arrowRight}</button>
+              <button type="button" class="dpad-btn down" data-dir="down" aria-label="Abajo">${SVG_ICONS.arrowDown}</button>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <span class="maze-hint-text">Controles: Flechas o WASD / Pantalla táctil</span>
+              <button type="button" class="btn-tactical-reset" id="resetMaze">Reiniciar sector</button>
+            </div>
+          </div>
+          <div class="feedback" id="feedback" role="status"></div>
           <div class="actions">
-            <button type="submit" id="verify">${buttonLabel}</button>
-            <button type="button" class="secondary" id="hint">Pedir pista de Aura</button>
+            <button type="submit" id="verify" disabled>Confirmar extracción ◈</button>
+            <button type="button" class="secondary" id="hint">Pista táctica</button>
           </div>
         </form>
-        <div class="feedback" id="feedback" role="status"></div>
       </div>`:`
       <div class="card">
-        <p class="eyebrow">✓ CASO RESUELTO CON ÉXITO</p>
-        <h2>¡Devoraste y no dejaste ni las migajas!</h2>
-        <p>Has obtenido +${c.puzzles.length*5000} puntos de Aura resolutiva. El expediente ${c.title} queda archivado en la historia.</p>
+        <p class="eyebrow">✓ CASO RESUELTO</p>
+        <h2>Expediente completado</h2>
+        <p>Has superado todos los sectores tácticos y asegurado las evidencias del caso ${c.title}. Puntos obtenidos: +${c.puzzles.length*5000} Aura.</p>
         <a class="btn" href="#inicio">Volver a la central</a>
       </div>`}
-    <h2 class="section">Pistas recuperadas del expediente</h2>
+    <h2 class="section">Registros recuperados del sector</h2>
     ${c.puzzles.slice(0,n).map((x,i)=>`
       <div class="card" style="margin-bottom:12px">
-        <span class="tag">PISTA ${i+1} · REVELACIÓN</span>
+        <span class="tag">SECTOR ${i+1} · REVELACIÓN</span>
         <p>${x.reveal}</p>
-      </div>`).join('')||'<p>Aún no hay pistas recuperadas en este caso.</p>'}
+      </div>`).join('')||'<p>Aún no hay registros en este expediente.</p>'}
   </section>`;
 
   if(!p) return;
 
-  const feedback=$('#feedback'), verify=$('#verify');
-  let selectedAnswer=null, selectedItems=[], inspected=new Set(), matchedLeft=new Set(), matchedRight=new Set(), selectedLeft=null, inventory=new Set(), sceneComplete=false;
-  let mazeComplete=false, hiddenComplete=false, radarComplete=false, lockComplete=false;
-
-  verify.disabled=true;
+  const feedback=$('#feedback'), verify=$('#verify'), mazeWrapper=$('#mazeWrapper');
+  const auraBar=$('#auraBar'), auraPercent=$('#auraPercent');
+  const keyBadge=$('#keyBadge'), keyStatus=$('#keyStatus');
+  const itemsBadge=$('#itemsBadge'), itemStatus=$('#itemStatus');
 
   $('#hint').onclick=()=>{
-    feedback.textContent='💡 Pista de Aura: ' + p.hint;
+    feedback.className='feedback';
+    feedback.textContent='Pista táctica: ' + p.hint;
   };
 
-  /* 1. MAZE INTERACTION */
-  if(p.type==='maze'){
-    const rawGrid=p.grid.map(row=>row.trim().split(/\s+/));
-    const rows=rawGrid.length, cols=rawGrid[0].length;
-    let grid=rawGrid.map(row=>[...row]);
-    let playerPos={r:0,c:0}, crumbsCollected=0;
-    const requiredCrumbs=p.requiredCrumbs||0;
+  /* Tactical Maze State */
+  const rawGrid = p.grid.map(row => row.trim().split(/\s+/));
+  const rows = rawGrid.length, cols = rawGrid[0].length;
+  let grid = rawGrid.map(row => [...row]);
+  let playerPos = { r: 0, c: 0 }, startPos = { r: 0, c: 0 };
+  let aura = 100, keys = 0, items = 0;
+  let mazeComplete = false;
+  const discovered = new Set();
 
-    for(let r=0;r<rows;r++){
-      for(let cIdx=0;cIdx<cols;cIdx++){
-        if(grid[r][cIdx]==='S'){playerPos={r,c:cIdx};grid[r][cIdx]='.';}
+  for(let r=0; r<rows; r++){
+    for(let cIdx=0; cIdx<cols; cIdx++){
+      if(grid[r][cIdx]==='S'){
+        startPos = { r, c: cIdx };
+        playerPos = { r, c: cIdx };
+        grid[r][cIdx] = '.';
       }
     }
+  }
 
-    const mazeBoard=$('#mazeBoard');
-    mazeBoard.style.gridTemplateColumns=`repeat(${cols}, 1fr)`;
+  const mazeBoard = $('#mazeBoard');
+  mazeBoard.style.gridTemplateColumns = `repeat(${cols}, minmax(0, 1fr))`;
 
-    function renderMaze(){
-      let html='';
-      for(let r=0;r<rows;r++){
-        for(let cIdx=0;cIdx<cols;cIdx++){
-          const isPlayer=r===playerPos.r && cIdx===playerPos.c;
-          const val=grid[r][cIdx];
-          if(isPlayer){
-            html+=`<div class="tile player">${p.playerIcon||'🕵️'}</div>`;
-          }else if(val==='#'){
-            html+=`<div class="tile wall">🧱</div>`;
-          }else if(val==='M'){
-            html+=`<div class="tile crumb">🍞</div>`;
-          }else if(val==='G'){
-            html+=`<div class="tile goal">${p.goalIcon||'🎯'}</div>`;
-          }else{
-            html+=`<div class="tile path"></div>`;
+  function updateHUD(){
+    auraPercent.textContent = `${aura}%`;
+    auraBar.style.width = `${aura}%`;
+    auraBar.classList.toggle('warning', aura <= 50 && aura > 25);
+    auraBar.classList.toggle('danger', aura <= 25);
+
+    keyStatus.textContent = keys;
+    keyBadge.classList.toggle('has-key', keys > 0);
+
+    itemStatus.textContent = `${items}/${p.requiredItems}`;
+    itemsBadge.classList.toggle('done', items >= p.requiredItems);
+  }
+
+  function renderMaze(){
+    let html = '';
+    const fog = Boolean(p.fog);
+
+    // Update discovered tiles if fog is active
+    if(fog){
+      for(let r=0; r<rows; r++){
+        for(let cIdx=0; cIdx<cols; cIdx++){
+          const dist = Math.hypot(r - playerPos.r, cIdx - playerPos.c);
+          if(dist <= 2.2){
+            discovered.add(`${r},${cIdx}`);
           }
         }
       }
-      mazeBoard.innerHTML=html;
-      $('#mazeCrumbs').textContent=crumbsCollected;
     }
 
-    function move(dr,dc){
-      if(mazeComplete) return;
-      const nr=playerPos.r+dr, nc=playerPos.c+dc;
-      if(nr<0||nr>=rows||nc<0||nc>=cols) return;
-      if(grid[nr][nc]==='#') return;
+    for(let r=0; r<rows; r++){
+      for(let cIdx=0; cIdx<cols; cIdx++){
+        const isPlayer = r === playerPos.r && cIdx === playerPos.c;
+        const val = grid[r][cIdx];
+        const dist = Math.hypot(r - playerPos.r, cIdx - playerPos.c);
+        let fogClass = 'fog-visible';
 
-      playerPos={r:nr,c:nc};
-      if(grid[nr][nc]==='M'){
-        grid[nr][nc]='.';
-        crumbsCollected++;
-        feedback.textContent=`🍞 ¡Recogiste una migaja! (${crumbsCollected}/${requiredCrumbs}) +1000 Aura`;
-      }
+        if(fog){
+          if(dist <= 2.2){
+            fogClass = 'fog-visible';
+          }else if(discovered.has(`${r},${cIdx}`)){
+            fogClass = 'fog-dim';
+          }else{
+            fogClass = 'fog-hidden';
+          }
+        }
 
-      if(grid[nr][nc]==='G'){
-        if(crumbsCollected>=requiredCrumbs){
-          mazeComplete=true;
-          verify.disabled=false;
-          $('#mazeStatus').textContent='🏆 ¡Llegaste a la meta! Devoraste el laberinto. Pulsa "' + buttonLabel + '".';
-          feedback.textContent='¡Victoria épica! +10,000 Aura.';
+        if(isPlayer){
+          html += `<div class="tile player ${fogClass}">${SVG_ICONS.player}</div>`;
+        }else if(val === '#'){
+          html += `<div class="tile wall ${fogClass}"></div>`;
+        }else if(val === 'T'){
+          html += `<div class="tile trap ${fogClass}">${SVG_ICONS.trap}</div>`;
+        }else if(val === 'K'){
+          html += `<div class="tile key ${fogClass}">${SVG_ICONS.key}</div>`;
+        }else if(val === 'D'){
+          html += `<div class="tile door ${fogClass}">${SVG_ICONS.door}</div>`;
+        }else if(val === 'C'){
+          html += `<div class="tile item ${fogClass}">${SVG_ICONS.item}</div>`;
+        }else if(val === 'G'){
+          html += `<div class="tile goal ${fogClass}">${SVG_ICONS.goal}</div>`;
         }else{
-          feedback.textContent=`⚠️ Te faltan migajas. Recoge ${requiredCrumbs-crumbsCollected} migaja(s) más para poder cruzar.`;
+          html += `<div class="tile path ${fogClass}"></div>`;
         }
       }
-      renderMaze();
+    }
+    mazeBoard.innerHTML = html;
+    updateHUD();
+  }
+
+  function resetSector(){
+    grid = rawGrid.map(row => [...row]);
+    for(let r=0; r<rows; r++){
+      for(let cIdx=0; cIdx<cols; cIdx++){
+        if(grid[r][cIdx]==='S') grid[r][cIdx] = '.';
+      }
+    }
+    playerPos = { ...startPos };
+    aura = 100;
+    keys = 0;
+    items = 0;
+    mazeComplete = false;
+    verify.disabled = true;
+    discovered.clear();
+    feedback.className = 'feedback';
+    feedback.textContent = 'Sector reiniciado desde el punto de infiltración.';
+    renderMaze();
+  }
+
+  $('#resetMaze').onclick = resetSector;
+
+  function move(dr, dc){
+    if(mazeComplete) return;
+    const nr = playerPos.r + dr, nc = playerPos.c + dc;
+    if(nr < 0 || nr >= rows || nc < 0 || nc >= cols) return;
+
+    const targetVal = grid[nr][nc];
+    if(targetVal === '#') return; // Wall
+
+    // Check locked door
+    if(targetVal === 'D'){
+      if(keys > 0){
+        keys--;
+        grid[nr][nc] = '.';
+        feedback.className = 'feedback success';
+        feedback.textContent = 'Compuerta de seguridad desbloqueada.';
+      }else{
+        feedback.className = 'feedback danger';
+        feedback.textContent = 'Compuerta blindada bloqueada. Necesitas la tarjeta magnética [K].';
+        return;
+      }
+    }
+
+    playerPos = { r: nr, c: nc };
+
+    // Stepped on Trap
+    if(targetVal === 'T'){
+      aura = Math.max(0, aura - 25);
+      mazeWrapper.classList.remove('shake');
+      void mazeWrapper.offsetWidth; // trigger reflow
+      mazeWrapper.classList.add('shake');
+
+      if(aura <= 0){
+        feedback.className = 'feedback danger';
+        feedback.textContent = '¡ALERTA MÁXIMA! Reserva de aura agotada por trampas. Reiniciando sector...';
+        setTimeout(resetSector, 600);
+        return;
+      }else{
+        feedback.className = 'feedback danger';
+        feedback.textContent = `¡ALERTA DE TRAMPA! Impacto de sensor. Aura restante: ${aura}%.`;
+      }
+    }
+
+    // Stepped on Key
+    if(targetVal === 'K'){
+      keys++;
+      grid[nr][nc] = '.';
+      feedback.className = 'feedback success';
+      feedback.textContent = 'Tarjeta magnética asegurada. Compuerta [D] habilitada.';
+    }
+
+    // Stepped on Clue Item
+    if(targetVal === 'C'){
+      items++;
+      grid[nr][nc] = '.';
+      feedback.className = 'feedback success';
+      feedback.textContent = `Objetivo asegurado (${items}/${p.requiredItems}).`;
+    }
+
+    // Stepped on Goal
+    if(targetVal === 'G'){
+      if(items >= p.requiredItems){
+        mazeComplete = true;
+        verify.disabled = false;
+        feedback.className = 'feedback success';
+        feedback.textContent = '¡Sector despejado! Objetivos a salvo. Pulsa "Confirmar extracción ◈" para continuar.';
+      }else{
+        feedback.className = 'feedback danger';
+        feedback.textContent = `Aún requieres recuperar ${p.requiredItems - items} objetivo(s) antes de la extracción.`;
+      }
     }
 
     renderMaze();
+  }
 
-    view.querySelectorAll('[data-dir]').forEach(btn=>{
-      btn.onclick=()=>{
-        const dir=btn.dataset.dir;
-        if(dir==='up') move(-1,0);
-        else if(dir==='down') move(1,0);
-        else if(dir==='left') move(0,-1);
-        else if(dir==='right') move(0,1);
-      };
-    });
+  renderMaze();
 
-    activeKeyHandler=e=>{
-      if(['ArrowUp','KeyW'].includes(e.code)){e.preventDefault();move(-1,0);}
-      else if(['ArrowDown','KeyS'].includes(e.code)){e.preventDefault();move(1,0);}
-      else if(['ArrowLeft','KeyA'].includes(e.code)){e.preventDefault();move(0,-1);}
-      else if(['ArrowRight','KeyD'].includes(e.code)){e.preventDefault();move(0,1);}
+  view.querySelectorAll('[data-dir]').forEach(btn => {
+    btn.onclick = () => {
+      const dir = btn.dataset.dir;
+      if(dir === 'up') move(-1, 0);
+      else if(dir === 'down') move(1, 0);
+      else if(dir === 'left') move(0, -1);
+      else if(dir === 'right') move(0, 1);
     };
-    window.addEventListener('keydown',activeKeyHandler);
-  }
-
-  /* 2. HIDDEN OBJECTS INTERACTION */
-  if(p.type==='hidden'){
-    const foundTargets=new Set();
-    const countEl=$('#hiddenCount');
-    const statusEl=$('#hiddenStatus');
-
-    view.querySelectorAll('[data-spot]').forEach(card=>{
-      card.onclick=()=>{
-        const spotId=card.dataset.spot;
-        const spot=p.spots.find(s=>s.id===spotId);
-        if(!spot) return;
-
-        if(spot.finds){
-          if(!foundTargets.has(spot.finds)){
-            foundTargets.add(spot.finds);
-            card.classList.add('found');
-            card.innerHTML=`<span class="hidden-card-title">✅ ¡ENCONTRADO!</span><span class="hidden-card-desc">${esc(spot.detail)}</span>`;
-            card.disabled=true;
-
-            const targetItem=$(`#target-${spot.finds}`);
-            if(targetItem){
-              targetItem.classList.add('done');
-              targetItem.querySelector('span').textContent='✅';
-            }
-
-            countEl.textContent=foundTargets.size;
-            statusEl.textContent=spot.detail;
-
-            if(foundTargets.size===p.targets.length){
-              hiddenComplete=true;
-              verify.disabled=false;
-              feedback.textContent='🎉 ¡Encontraste todas las evidencias ocultas en la página! No dejaste ni las migajas (+5,000 Aura).';
-            }
-          }
-        }else if(spot.decoy){
-          card.classList.add('decoy');
-          statusEl.textContent=spot.decoy;
-          feedback.textContent=spot.decoy;
-        }
-      };
-    });
-  }
-
-  /* 3. RADAR / FREQUENCY TUNER */
-  if(p.type==='radar'){
-    let currentFreq=92.0;
-    const targetFreq=p.targetFreq;
-    const freqDisplay=$('#freqDisplay'), slider=$('#freqSlider'), audioText=$('#radioAudioText'), status=$('#radarStatus');
-    const bars=[$('#bar1'),$('#bar2'),$('#bar3'),$('#bar4'),$('#bar5')];
-
-    function updateFreq(val){
-      currentFreq=Math.round(val*10)/10;
-      slider.value=currentFreq;
-      freqDisplay.textContent=currentFreq.toFixed(1);
-
-      const diff=Math.abs(currentFreq-targetFreq);
-      bars.forEach(b=>b.classList.remove('active'));
-
-      if(diff<0.15){
-        bars.forEach(b=>b.classList.add('active'));
-        audioText.textContent=p.quotes.locked;
-        audioText.style.borderColor='var(--neon-green)';
-        status.textContent='¡SEÑAL SINTONIZADA AL 100%! +50,000 Aura asegurada. Pulsa "' + buttonLabel + '".';
-        radarComplete=true;
-        verify.disabled=false;
-      }else if(diff<0.8){
-        bars.slice(0,3).forEach(b=>b.classList.add('active'));
-        audioText.textContent=p.quotes.close;
-        audioText.style.borderColor='var(--gold)';
-        status.textContent='¡Casi lo tienes! El audio se está aclarando.';
-        radarComplete=false;
-        verify.disabled=true;
-      }else{
-        bars[0].classList.add('active');
-        audioText.textContent=p.quotes.far;
-        audioText.style.borderColor='var(--line)';
-        status.textContent='Demasiada estática. Sigue ajustando la perilla o la barra.';
-        radarComplete=false;
-        verify.disabled=true;
-      }
-    }
-
-    slider.oninput=()=>updateFreq(parseFloat(slider.value));
-    $('#freqDown').onclick=()=>updateFreq(currentFreq-0.1);
-    $('#freqUp').onclick=()=>updateFreq(currentFreq+0.1);
-    $('#freqDownFast').onclick=()=>updateFreq(currentFreq-1.0);
-    $('#freqUpFast').onclick=()=>updateFreq(currentFreq+1.0);
-    updateFreq(92.0);
-  }
-
-  /* 4. LOCK / SAFE COMBINATION */
-  if(p.type==='lock'){
-    const dialsCount=p.dials||3;
-    const digits=new Array(dialsCount).fill(0);
-    const indicator=$('#lockIndicator');
-
-    function checkLock(){
-      const code=digits.join('');
-      if(code===String(p.solution)){
-        lockComplete=true;
-        verify.disabled=false;
-        indicator.textContent='🔓 ¡CANDADO DESBLOQUEADO!';
-        indicator.classList.add('unlocked');
-        feedback.textContent='¡CLIC! Combinación exacta. Pulsa "' + buttonLabel + '" para continuar.';
-      }else{
-        lockComplete=false;
-        verify.disabled=true;
-        indicator.textContent='🔒 Candado cerrado';
-        indicator.classList.remove('unlocked');
-      }
-    }
-
-    view.querySelectorAll('[data-dial-idx]').forEach(btn=>{
-      btn.onclick=()=>{
-        const idx=parseInt(btn.dataset.dialIdx,10);
-        const dir=parseInt(btn.dataset.dialDir,10);
-        digits[idx]=(digits[idx]+dir+10)%10;
-        $(`#dialVal${idx}`).textContent=digits[idx];
-        checkLock();
-      };
-    });
-  }
-
-  /* 5. INSPECT */
-  view.querySelectorAll('[data-inspect]').forEach(button=>button.onclick=()=>{
-    const id=button.dataset.inspect;
-    if(inspected.has(id)) return;
-    inspected.add(id);
-    button.setAttribute('aria-expanded','true');
-    button.querySelector('span').textContent='−';
-    view.querySelectorAll('[data-observation]').forEach(note=>{
-      if(note.dataset.observation===id) note.hidden=false;
-    });
-    $('#inspectionStatus').textContent=`Evidencias examinadas: ${inspected.size} de ${p.evidence.length}`;
-    if(inspected.size===p.evidence.length){
-      view.querySelectorAll('[data-option]').forEach(opt=>opt.disabled=false);
-      feedback.textContent='Examinaste todas las pistas. Toca la deducción que encaje.';
-    }
   });
 
-  view.querySelectorAll('[data-option]').forEach(button=>button.onclick=()=>{
-    selectedAnswer=button.dataset.option;
-    verify.disabled=false;
-    view.querySelectorAll('[data-option]').forEach(option=>{
-      option.classList.toggle('selected',option===button);
-      option.setAttribute('aria-pressed',String(option===button));
-    });
-  });
+  activeKeyHandler = e => {
+    if(['ArrowUp','KeyW'].includes(e.code)){ e.preventDefault(); move(-1, 0); }
+    else if(['ArrowDown','KeyS'].includes(e.code)){ e.preventDefault(); move(1, 0); }
+    else if(['ArrowLeft','KeyA'].includes(e.code)){ e.preventDefault(); move(0, -1); }
+    else if(['ArrowRight','KeyD'].includes(e.code)){ e.preventDefault(); move(0, 1); }
+  };
+  window.addEventListener('keydown', activeKeyHandler);
 
-  /* 6. MATCH */
-  view.querySelectorAll('[data-match-left]').forEach(button=>button.onclick=()=>{
-    if(matchedLeft.has(button.dataset.matchLeft)) return;
-    selectedLeft=button.dataset.matchLeft;
-    view.querySelectorAll('[data-match-left]').forEach(option=>{
-      option.classList.toggle('selected',option===button);
-      option.setAttribute('aria-pressed',String(option===button));
-    });
-  });
-
-  view.querySelectorAll('[data-match-right]').forEach(button=>button.onclick=()=>{
-    if(selectedLeft===null){feedback.textContent='Primero selecciona un rastro de la izquierda.';return;}
-    const rightId=button.dataset.matchRight;
-    if(matchedRight.has(rightId)) return;
-    if(p.matches[selectedLeft]!==rightId){
-      feedback.textContent='Esa correspondencia no encaja. Perdiste -100 de Aura. ¡Prueba otra!';
-      selectedLeft=null;
-      view.querySelectorAll('[data-match-left]').forEach(option=>{
-        option.classList.remove('selected');
-        option.setAttribute('aria-pressed','false');
-      });
-      return;
-    }
-    matchedLeft.add(selectedLeft);
-    matchedRight.add(rightId);
-    view.querySelectorAll('[data-match-left],[data-match-right]').forEach(option=>{
-      if(matchedLeft.has(option.dataset.matchLeft)||matchedRight.has(option.dataset.matchRight)){
-        option.disabled=true;
-        option.classList.add('matched');
-        option.setAttribute('aria-pressed','true');
-      }
-    });
-    selectedLeft=null;
-    feedback.textContent='¡Conexión correcta! +2000 Aura.';
-    $('#matchStatus').textContent=`Conexiones correctas: ${matchedLeft.size} de ${Object.keys(p.matches).length}`;
-    if(matchedLeft.size===Object.keys(p.matches).length) verify.disabled=false;
-  });
-
-  /* 7. SCENE */
-  view.querySelectorAll('[data-scene]').forEach(button=>button.onclick=()=>{
-    const object=p.objects.find(x=>x.id===button.dataset.scene);
-    if(object.requiredItem&&!inventory.has(object.requiredItem)){
-      feedback.textContent=object.lockedDetail;
-      return;
-    }
-    if(object.requiredInspections&&!object.requiredInspections.every(id=>inspected.has(id))){
-      feedback.textContent=object.lockedDetail;
-      return;
-    }
-    if(inspected.has(object.id)) return;
-    inspected.add(object.id);
-    button.setAttribute('aria-expanded','true');
-    button.querySelector('span').textContent='−';
-    view.querySelectorAll('[data-scene-detail]').forEach(detail=>{
-      if(detail.dataset.sceneDetail===object.id) detail.hidden=false;
-    });
-    if(object.grants) inventory.add(object.grants.id);
-    $('#sceneInventory').textContent=p.objects.filter(x=>inspected.has(x.id)).map(x=>x.grants?x.grants.label:x.label).join(', ')||'Nada todavía';
-    feedback.textContent=object.grants?`Encontraste: ${object.grants.label} (+2000 Aura).`:'Pista registrada en el expediente.';
-    if(object.goal){
-      sceneComplete=true;
-      verify.disabled=false;
-      feedback.textContent='¡Objetivo cumplido! Pulsa "' + buttonLabel + '" para registrar tu triunfo.';
-    }
-  });
-
-  /* 8. SEQUENCE */
-  view.querySelectorAll('[data-sequence]').forEach(button=>button.onclick=()=>{
-    if(selectedItems.length>=p.items.length||selectedItems.includes(button.dataset.sequence)) return;
-    selectedItems.push(button.dataset.sequence);
-    button.disabled=true;
-    button.setAttribute('aria-pressed','true');
-    updateSequence();
-  });
-
-  function updateSequence(){
-    $('#sequencePreview').innerHTML=selectedItems.map(id=>`<li>${esc(p.items.find(x=>x.id===id).label)}</li>`).join('');
-    $('#undoSequence').disabled=selectedItems.length===0;
-    $('#clearSequence').disabled=selectedItems.length===0;
-    verify.disabled=selectedItems.length!==p.items.length;
-  }
-
-  if(p.type==='sequence'){
-    $('#undoSequence').onclick=()=>{
-      const id=selectedItems.pop();
-      view.querySelectorAll('[data-sequence]').forEach(x=>{
-        if(x.dataset.sequence===id){x.disabled=false;x.setAttribute('aria-pressed','false');}
-      });
-      updateSequence();
-    };
-    $('#clearSequence').onclick=()=>{
-      selectedItems=[];
-      view.querySelectorAll('[data-sequence]').forEach(x=>{
-        x.disabled=false;x.setAttribute('aria-pressed','false');
-      });
-      updateSequence();
-    };
-    updateSequence();
-  }
-
-  /* SUBMIT VERIFICATION */
-  $('#answerForm').onsubmit=async e=>{
+  $('#answerForm').onsubmit = async e => {
     e.preventDefault();
-    let valid=false;
-    if(p.type==='maze') valid=mazeComplete;
-    else if(p.type==='hidden') valid=hiddenComplete;
-    else if(p.type==='radar') valid=radarComplete;
-    else if(p.type==='lock') valid=lockComplete;
-    else if(p.type==='sequence') valid=selectedItems.join('|')===p.solution.join('|');
-    else if(p.type==='match') valid=matchedLeft.size===Object.keys(p.matches).length;
-    else if(p.type==='scene') valid=sceneComplete;
-    else if(p.type==='inspect') valid=selectedAnswer!==null&&p.answers.some(a=>normalize(a)===normalize(selectedAnswer));
-
-    if(!valid){
-      feedback.textContent='⚠️ Deducción incorrecta (-10,000 de Aura). Revisa las evidencias e interactúa de nuevo.';
+    if(!mazeComplete){
+      feedback.className = 'feedback danger';
+      feedback.textContent = 'Debes completar el recorrido y alcanzar la meta antes de continuar.';
       return;
     }
 
-    verify.disabled=true;
+    verify.disabled = true;
     try{
-      const record={id:c.id,step:n+1,updated:new Date().toISOString()};
-      await put('progress',record);
-      state[c.id]=record;
-      if(location.hash===`#caso/${c.id}`) caseView(c);
+      const record = { id: c.id, step: n + 1, updated: new Date().toISOString() };
+      await put('progress', record);
+      state[c.id] = record;
+      if(location.hash === `#caso/${c.id}`) caseView(c);
     }catch(err){
-      feedback.textContent='No se pudo guardar el progreso: '+err.message;
-      verify.disabled=false;
+      feedback.className = 'feedback danger';
+      feedback.textContent = 'Error al registrar progreso: ' + err.message;
+      verify.disabled = false;
     }
   };
 }
@@ -653,14 +431,14 @@ function caseView(c){
 function progressView(){
   cleanupKeyHandler();
   view.innerHTML=`<section class="section">
-    <p class="eyebrow">REGISTRO DE AGENTE · AURA 2026</p>
+    <p class="eyebrow">REGISTRO DE AGENTE · SECTORES Y AURA</p>
     <h1>Mi expediente</h1>
     <p>Tu progreso e insignias se conservan en este dispositivo mediante IndexedDB.</p>
     ${stats()}
     ${cases.map(c=>`<div class="card section">
       <h3>${c.title}</h3>
       <progress value="${count(c)}" max="${c.puzzles.length}"></progress>
-      <p>${count(c)===c.puzzles.length?'✨ Caso resuelto · Devoraste al 100%':`${count(c)} de ${c.puzzles.length} pruebas completadas`}</p>
+      <p>${count(c)===c.puzzles.length?'Expediente completado al 100%':`${count(c)} de ${c.puzzles.length} sectores superados`}</p>
       <a href="#caso/${c.id}">Consultar expediente →</a>
     </div>`).join('')}
     <button class="secondary" id="reset">Reiniciar progreso</button>
@@ -684,15 +462,15 @@ function evidenceView(){
     <div class="card">
       <form id="evidenceForm">
         <label for="note">Descripción del hallazgo</label>
-        <textarea id="note" maxlength="500" required placeholder="Describe la evidencia encontrada..."></textarea>
+        <textarea id="note" maxlength="500" required placeholder="Describe la evidencia encontrada..." style="width:100%;background:#0e1715;border:1px solid var(--line-bright);border-radius:6px;padding:12px;color:var(--text);margin:8px 0 14px"></textarea>
         <div class="actions">
           <button type="button" class="secondary" id="camera">◉ Abrir cámara</button>
           <button type="button" class="secondary" id="geo">◎ Registrar ubicación</button>
         </div>
         <p id="apiStatus" class="feedback" role="status"></p>
-        <video id="video" autoplay playsinline muted hidden></video>
+        <video id="video" autoplay playsinline muted hidden style="width:100%;max-height:300px;border-radius:8px"></video>
         <button type="button" id="snap" hidden>Capturar foto</button>
-        <img id="preview" class="photo" hidden alt="Evidencia capturada">
+        <img id="preview" class="photo" hidden alt="Evidencia capturada" style="width:100%;max-height:240px;object-fit:contain;border-radius:8px">
         <p id="coords"></p>
         <button type="submit">Guardar evidencia</button>
       </form>
@@ -700,7 +478,7 @@ function evidenceView(){
     <h2 class="section">Archivo de campo</h2>
     <div class="grid">${evidence.map(x=>`
       <article class="card">
-        ${x.photo?`<img class="photo" src="${esc(x.photo)}" alt="Evidencia">`:''}
+        ${x.photo?`<img class="photo" src="${esc(x.photo)}" alt="Evidencia" style="width:100%;max-height:200px;object-fit:contain;border-radius:6px">`:''}
         <p class="tag">${esc(new Date(x.date).toLocaleString('es-MX'))}</p>
         <p>${esc(x.note)}</p>
         ${x.coords?`<p>Lat. ${x.coords.lat.toFixed(5)} · Lon. ${x.coords.lon.toFixed(5)}</p>`:''}
